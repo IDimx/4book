@@ -1,0 +1,1907 @@
+<!doctype html>
+<html lang="fa" dir="rtl"><head>
+  <meta charset="utf-8">
+  <link rel="icon" href='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="-5 -5 107 107"><circle cx="50" cy="50" r="55" fill="%23FFD93B"/><text x="48" y="62" text-anchor="middle" dominant-baseline="middle" font-family="Segoe UI,Arial, Helvetica, sans-serif" font-weight="600" font-size="104" fill="%23000">B</text></svg>'>
+  <title>4Book</title>
+
+  <style>
+
+    html::-webkit-scrollbar {width: 12px}
+    html::-webkit-scrollbar-track {background: #4b4b4b;}
+    html::-webkit-scrollbar-thumb {background: #9c9c9c;border-radius:20px;border:1px solid #303030;}
+    html::-webkit-scrollbar-thumb:hover {background-color: #ffffff;}
+
+    :root{
+      --bg-1:#a7a7a7;
+      --bg-2:#a7a7a7;
+      --card-bg: linear-gradient(180deg, #13234dec, #00445f);
+      --text:#e6eef8;
+      --muted:#9aa4b2;
+      --accent:#4f8ef7;
+      --gap:13px;
+      --font:"Segoe UI", Tahoma, Arial, sans-serif;
+    }
+
+    textarea {color: #dbd800 !important}
+    input, textarea, select, button, .btn {word-spacing: -0.05em;font-family: var(--font) !important;}
+
+    #addGroupSelect,select {background-color: #051c32;}
+    .hidden {display: none !important;}
+
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:var(--font);background:linear-gradient(180deg,var(--bg-1),var(--bg-2));color:var(--text);-webkit-font-smoothing:antialiased}
+    a{color:inherit;text-decoration:none}
+    button{font-family:inherit}
+
+    .wrap{min-height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:26px 12px;
+      padding-left: 9px;
+      padding-right: 9px;
+      padding-top: 20px;
+    }
+
+    .card{
+      width:100%;
+      max-width:1310px;
+      background:var(--card-bg);
+      box-shadow:0 12px 40px #060e339f;
+      border:1px solid #000000;
+      border-radius:45px;
+      border-top-width: 2px;
+      border-bottom-width: 2px;
+      border-right-width: 10px;
+      border-left-width: 10px;
+      padding:18px;
+      padding-top:1px;
+      padding-bottom: 10px;
+      overflow:hidden;
+    }
+
+    header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:6px}
+    .title{display:flex;gap:0px;align-items:center;font-size:16px;color:#ffffff80}
+    h1{margin:0;font-size:18px}
+    p.lead{margin:2px 0 0 0;color:var(--muted);font-size:13px}
+
+    .controls{display:flex;gap:5px;align-items:center}
+    .btn{background:transparent;border:0px solid #ffffff0f;Color:var(--text);padding:2px 2px;border-radius:20px;font-size:13px;cursor:pointer;transition:all .12s}
+    .btn:hover{transform:translateY(-2px)}
+
+    .groups{display:flex;flex-direction:column;gap:10px}
+    .group{border-radius:25px;padding:10px;padding-top:1px;background:linear-gradient(180deg, #ffffff03, #ffffff01);border:1px solid #000000b4;border-right-width: 5px;border-left-width: 5px;overflow:hidden}
+
+    .group-header{display:flex;align-items:center;justify-content:space-between;gap:2px;padding:1px 1px}
+    .group-title{display:flex;align-items:center;gap:12px}
+    .toggle-btn{background:transparent;border:none;color:var(--text);font-weight:600;cursor:pointer;display:flex;align-items:center;gap:4px}
+    .toggle-icon{transition:transform .2s;font-size:15px}
+    .toggle-icon.collapsed{transform:rotate(-90deg)}
+
+    /* ظرفیت افقی: 5 ستون */
+    .links{display:grid;grid-template-columns:repeat(5, minmax(0,1fr));gap:var(--gap);padding-top:6px;padding-bottom:2px}
+
+    .link-card{
+      position:relative;
+      padding:6px;
+      padding-bottom: 5px;
+      padding-top: 5px;
+      border-radius:26px;
+      background: linear-gradient(90deg, #00000000, #00000031);
+      border:1px solid #000000f9;
+      border-right-width: 8px;
+      border-left-width: 4px;
+      min-height:32px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s;
+      overflow:hidden;
+    }
+
+    .link-card::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: linear-gradient(180deg, #ffffff10, #00000000);
+      transform:translateY(100%);
+      opacity:0;
+      transition:opacity .10s, transform .5s;
+      pointer-events:none;
+    }
+    .link-card:hover{
+      transform: translateY(-6px);
+      box-shadow: 0 2px 10px #000000;
+      border-color: #ffffff8f;
+    }
+    .link-card:hover::before{opacity:1; transform:translateY(0%)}
+
+    .fav{
+      width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:#ffffff05;flex:0 0 34px;overflow:hidden;
+    }
+    .fav img{width:100%;height:100%;object-fit:cover;display:block;border-radius:10px}
+    .fav svg{width:18px;height:18px;fill:var(--accent)}
+
+    .link-top{display:flex;gap:10px;align-items:center;border-radius:30px;background:rgba(0, 0, 0, 0.055)}
+    .link-card a{font-size:14px;font-weight:450;color:var(--text);display:inline-block;max-width:calc(100% - 30px);word-break:break-word}
+    .link-card a small{display:block;font-weight:600;color:var(--accent);font-size:11px;margin-top:3px}
+
+    .desc{display:none;margin-top:3px;color:var(--muted);font-size:12px;line-height:1.2;align-items: center}
+    .meta{display:flex;gap:0px;align-items: end;margin-top:0px;justify-content:flex-end} 
+
+    .icon-btn{padding:6px 8px;font-size:12px;border-radius:8px}
+
+    .heart-btn{
+      background:transparent;
+      border:0;
+      padding:4px;
+      width:28px;
+      height:28px;
+      display:inline-flex;
+      align-items: center;
+      justify-content:center;
+      cursor:pointer;
+    }
+    .heart-btn .heart { width:14px;height:14px;display:inline-block;vertical-align:middle; }
+    .heart-btn .heart svg { width:100%;height:100%;fill:transparent;stroke:var(--muted);stroke-width:1.2 }
+    .heart-btn.favored .heart svg { fill: #c25454; stroke: #00000000 }
+
+    /* دکمه ویرایش: بدون حاشیه و پس‌زمینه، آیکون قلم */
+    .btn[data-action="edit-card"]{
+      background:transparent;
+      border:0;
+      padding:6px;
+      width:30px;
+      height:30px;
+      display:inline-flex;
+      align-items: center;
+      justify-content:center;
+      cursor:pointer;
+    }
+    .btn[data-action="edit-card"] svg{width:15px;height:15px;color:var(--muted);stroke:currentColor;stroke-width:1.2}
+
+    .group-body{overflow:hidden;transition:max-height .28s cubic-bezier(.2,.9,.3,1);max-height:2000px}
+    .group-body.collapsed{max-height:0}
+
+    /* واکنش‌گرایی */
+    @media (max-width:1500px){ .links{grid-template-columns:repeat(7, minmax(0,1fr))} }
+    @media (max-width:1300px){ .links{grid-template-columns:repeat(4, minmax(0,1fr))} }
+    @media (max-width:1000px){ .links{grid-template-columns:repeat(3, minmax(0,1fr))} }
+    @media (max-width:760px){ .links{grid-template-columns:repeat(2, minmax(0,1fr))} }
+    @media (max-width:480px){ .links{grid-template-columns:1fr} .card{padding:12px} }
+
+    /* Favorites group specific: initially hidden */
+    .favorites-group { display:none; margin-bottom:12px; }
+    .favorites-group.visible { display:block; }
+
+    /* Floating animation element (overlay) */
+    .flying-clone {
+      position:fixed;
+      z-index:9999;
+      pointer-events:none;
+      transition: transform 420ms cubic-bezier(.2,.9,.3,1), opacity 320ms ease;
+      will-change: transform, opacity;
+      border-radius:12px;
+      box-shadow: 0 22px 48px #02061799;
+      background: linear-gradient(180deg, #ffffff05, #ffffff03);
+      overflow:hidden;
+    }
+
+    /* subtle scale effect on target insertion */
+    .favorites-pulse {
+      animation: fav-pulse 360ms ease;
+    }
+    @keyframes fav-pulse {
+      0% { transform: scale(0.98); box-shadow: 0 8px 20px #4f8ef70f; }
+      50% { transform: scale(1.03); box-shadow: 0 26px 60px #4f8ef71f; }
+      100% { transform: scale(1); box-shadow: none; }
+    }
+
+    /* Modal for editing group title/description */
+    .modal-backdrop {
+      position:fixed; inset:0; background:#00000080; display:none; align-items:center; justify-content:center; z-index:10000;
+    }
+    .modal-backdrop.visible { display:flex; }
+    .modal {
+      width:360px; max-width:92%; background:linear-gradient(180deg, #001d3b, #000f1f); border-radius:12px; padding:16px; box-shadow:0 18px 40px #02061799;
+      border:1px solid #85858588;
+      color:var(--text);
+    }
+    .modal h3{margin:0 0 15px 0;font-size:18px}
+    .modal label{display:block;font-size:14px;color:var(--muted);margin-top:8px}
+    .modal input[type="text"], .modal textarea, .modal select, .modal input[type="number"] {
+      width:100%; padding:8px 10px; margin-top:6px; border-radius:8px; border:1px solid #ffffff0a; background:#ffffff05; color:var(--text);
+      font-size:14px;
+    }
+    .modal .row{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
+    .modal .row .btn{padding:8px 12px}
+    .group-action-btn { padding:0px 0px; font-size:14px; border-radius:20px; background:transparent; border:0px solid #e909090f; color:var(--text); cursor:pointer; }
+    .group-action-btn:hover{transform:translateY(-2px)}
+  </style>
+</head>
+<body>
+
+
+            <div Hidden>
+          Ai Comment RegEx    =   <!--[\s\S]*?--> 
+          Line Comment RegEx  =   ^\s*//.*
+          Enter Lines RegEx   =   ^\s*\r?\n
+          </div>
+
+
+  <div class="wrap">
+    <div class="card" role="region">
+      <header class="top">
+        <div class="controls">
+          <button id="saveBtn" class="btn" title="ذخیره">&nbsp;&nbsp;💾</button>
+          <button id="toggleAll" class="btn" title="پنهان / نمایش">🔅</button>
+          <button id="sortBtn" class="btn hidden" title="مرتب سازی">🔵</button>
+          <button id="addGroupBtn" class="btn hidden" title="گروه جدید">🟢</button>
+          <button id="addBtn" class="btn hidden" title="لینک جدید">🔴</button>
+          <button id="Bes" class="btn" title="قرآن نـور" style="color:#ffffff7e;font-size:12px">
+            <a href="https://quran.inoor.ir/fa/quran/" target="_blank" rel="noopener noreferrer">بسم اللـه</a>
+          </button>
+        </div>
+
+        <div class="title">
+          <span style="color:#b49e47">¹</span>Book<span style="color:#b49e47">4</span>  
+        </div>
+      </header>
+
+      <!-- Modal: Edit Group -->
+      <div id="editGroupModal" class="modal-backdrop" aria-hidden="true">
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="editGroupTitle">
+          <h3 id="editGroupTitle">ویرایش گروه</h3>
+          <label for="groupTitleInput">عنوان گروه</label>
+          <input id="groupTitleInput" type="text">
+          <label for="groupDescInput">توضیح گروه</label>
+          <textarea id="groupDescInput" rows="3"></textarea>
+          <div class="row">
+            <button id="deleteGroupBtn" class="btn" style="display: none; background: transparent; border: 1px solid rgba(255, 80, 80, 0.396); color: rgb(255, 107, 107);">حذف گروه</button>
+            <button id="cancelEditGroup" class="btn">انصراف</button>
+            <button id="confirmEditGroup" class="btn">تأیید</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal: Add/Edit Link (delete available in modal only for edit) -->
+      <div id="addLinkModal" class="modal-backdrop" aria-hidden="true">
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="addLinkTitle">
+          <h3 id="addLinkTitle">افزودن لینک جدید</h3>
+
+          <label for="addUrl">آدرس (URL)</label>
+          <input id="addUrl" type="text" placeholder="https://example.com">
+
+          <label for="addTitle">عنوان</label>
+          <input id="addTitle" type="text" placeholder="عنوان لینک" maxlength="26">
+
+          <label for="addDesc">توضیح کوتاه</label>
+          <textarea id="addDesc" rows="2" placeholder="توضیح" maxlength="98"></textarea>
+          <label for="addPosition">جایگاه (خالی = انتها)</label>
+          <input id="addPosition" type="number" placeholder="مثلاً 1" min="1" step="1">
+
+          <label for="addGroupSelect">گروه</label>
+          <select id="addGroupSelect" aria-label="انتخاب گروه"><option value="general">General</option><option value="system">System</option><option value="other">Other</option></select>
+
+          <label>آیکن (اختیاری)</label>
+          <div style="display:flex;gap:8px;align-items:center">
+            <button id="addIconBtn" class="btn" type="button">انتخاب آیکن</button>
+            <div id="addIconPreview" class="fav" aria-hidden="true" style="width:40px;height:34px;border-radius:10px"><img src="data:image/webp;base64,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" alt="icon"></div>
+          </div>
+
+          <div class="row">
+            
+            <button id="deleteCardBtn" class="btn" style="display: none; background: transparent; border: 1px solid rgba(255, 80, 80, 0.396); color: rgb(255, 107, 107);">حذف</button>
+            <button id="cancelAddLink" class="btn">انصراف</button>
+            <button id="confirmAddLink" class="btn">ثبت</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Favorites group (initially hidden). -->
+      <section id="favoritesGroup" class="group favorites-group visible" data-group="favorites" aria-hidden="false">
+        <div class="group-header">
+          <div class="group-title">
+            <div style="font-weight:700;font-size:11px">⭐</div>
+            <div class="small"></div>
+          </div>
+          <div class="group-actions">
+            <button class="group-action-btn" data-action="edit-group">⚙️</button>
+          </div>
+        </div>
+        <div class="group-body" id="body-favorites">
+          <div class="links" id="links-favorites" aria-live="polite">
+            <!-- favorite items will be inserted here -->
+          <div class="link-card" data-id="card-101" data-fav-clone="true" data-position="1"><div class="link-top"><div class="fav" aria-hidden="true"><img src="data:image/webp;base64,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" alt="icon"></div><a href="https://soft98.ir/internet/web-browser/244-google-chrome-desktop.html" target="_blank" rel="noopener noreferrer">Chrome</a></div><div class="desc hidden"></div><div class="meta hidden"><button class="btn heart-btn favored" data-action="toggle-fav" aria-pressed="true"><span class="heart" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12.1 21.35l-1.1-.99C5.14 15.36 2 12.28 2 8.5 2 6 3.99 4 6.5 4c1.74 0 3.41.81 4.5 2.09C12.09 4.81 13.76 4 15.5 4 18.01 4 20 6 20 8.5c0 3.78-3.14 6.86-8.9 11.86l-1.0.99z"></path></svg></span></button></div></div><div class="link-card" data-id="card-108" data-fav-clone="true" data-position="2"><div class="link-top"><div class="fav" aria-hidden="true"><img src="data:image/webp;base64,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" alt="icon"></div><a href="https://github.com/2dust/v2rayN/releases" target="_blank" rel="noopener noreferrer">V2RayN</a></div><div class="desc hidden"></div><div class="meta hidden"><button class="btn heart-btn favored" data-action="toggle-fav" aria-pressed="true"><span class="heart" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12.1 21.35l-1.1-.99C5.14 15.36 2 12.28 2 8.5 2 6 3.99 4 6.5 4c1.74 0 3.41.81 4.5 2.09C12.09 4.81 13.76 4 15.5 4 18.01 4 20 6 20 8.5c0 3.78-3.14 6.86-8.9 11.86l-1.0.99z"></path></svg></span></button></div></div><div class="link-card" data-id="card-115" data-fav-clone="true" data-position="3"><div class="link-top"><div class="fav" aria-hidden="true"><img src="data:image/webp;base64,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" alt="icon"></div><a href="https://soft98.ir/internet/download-manager/4-internet-download-manager-4.html" target="_blank" rel="noopener noreferrer">IDM</a></div><div class="desc hidden"></div><div class="meta hidden"><button class="btn heart-btn favored" data-action="toggle-fav" aria-pressed="true"><span class="heart" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12.1 21.35l-1.1-.99C5.14 15.36 2 12.28 2 8.5 2 6 3.99 4 6.5 4c1.74 0 3.41.81 4.5 2.09C12.09 4.81 13.76 4 15.5 4 18.01 4 20 6 20 8.5c0 3.78-3.14 6.86-8.9 11.86l-1.0.99z"></path></svg></span></button></div></div><div class="link-card" data-id="card-103" data-fav-clone="true" data-position="4"><div class="link-top"><div class="fav" aria-hidden="true"><img src="data:image/webp;base64,UklGRvIEAABXRUJQVlA4WAoAAAAwAAAAPwAAPwAASUNDUMgBAAAAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADZBTFBI7wAAAA2Agv3/4uR3Ouzu2fISDs3dort7tMporhGqRXfX6m7RIZHnejJN9+s8ETEB4M8klebHayhQrqR/Ozt4FiAwk9DHuSQ3KJlSx+QUWsZfBT+uoUYAxRMkxWTqtlfNAFy32g04GU5nnDazzSFuwErwLbbl8HI34CXU7fujTsBMaDtyALcqlUcGPIuNpbHRJDYS/n0sk8hkkUYmulhkLhOPzHSZqkLlfBjs0BKI3H9zv/ttGgKN2zDPupbsLTyBxG1aCgGwTOt7OQaFYJ7kAADMa1s9WQxFEopyy5JwPcVAQOF1wlyQE6OhFCTpPy9PGfAHAFZQOCAMAgAAsAwAnQEqQABAAD55NpZHpKKiISwVWmiQDwlmAMW06/pe/4G/6+JwG2A8wHQx9AD/t+jJ6gHoV+W17NnkANECqReyriF26nAxoZ0ZgygN/OLt19pdBJwZTmLSaCHHhjTFaTSttgCPnpJ0eMZvzoAA/vtCg+vnqB5aV/f/Mm93bDlZoMcKBx+0nlZ8LPc8x1+3uVIdWoasyHz0u9katSwt81ReEl80mS3r4ltuvqS/7L39Q9tSZc7YeCMzqgV7sAQBbts7ZPv4J+OXNXEou5xW1NZsfuFEwz763XEPyZEfFjUkcGrXly9g1ne2/I/hiSx5CbGyDnNWFb24GxaNI6QEvY9l8GwqUf0CI2awYs/d3FGl82k+dPSjsWWTTSLaHH0EtKctlXj2a7DTZlqve2OGxzinECCd4PBfK3tEfKs2qRH2rbx9q4FaLNmdati3hIccdIrHzyG680+1uNanpSYmBK471/qXmcr4falEJ4bgS6TVmCEcqug72wh6n/xz50f0+lUTnXlvZXj8b/xkriUlJtcrchzsKlu2Au4Sq5EH4383VlNmHVZLnHb/9ImWdr7A8hGSnXqyIizjCdtTlzkUNio5ZRrHoueq7SLcwyxo/oX7H1ZIB0VIFiphDV/GhNLtrT9eH09Qw7Q5WxYUT5EP54N58EPE0bQjeqzUbXNqn7AkADVDVefgTqy7gAA=" alt="icon"></div><a href="https://soft98.ir/software/pic-tools/3153-%D8%AF%D8%A7%D9%86%D9%84%D9%80%D9%88%D8%AF-%D9%86%D8%B1%D9%85-%D8%A7%D9%81%D9%80%D9%80%D8%B2%D8%A7%D8%B1-%D9%81%D9%80%D8%AA%D9%80%D9%88%D8%B4%D9%80%D8%A7%D9%BE.html#:~:text=%D9%86%D8%B3%D8%AE%D9%87%20%D8%A8%D8%AF%D9%88%D9%86%20%D9%86%DB%8C%D8%A7%D8%B2%20%D8%A8%D9%87%20%D9%86%D8%B5%D8%A8%20(%20Portable%20)" target="_blank" rel="noopener noreferrer">PhotoShop</a></div><div class="desc hidden"></div><div class="meta hidden"><button class="btn heart-btn favored" data-action="toggle-fav" aria-pressed="true"><span class="heart" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12.1 21.35l-1.1-.99C5.14 15.36 2 12.28 2 8.5 2 6 3.99 4 6.5 4c1.74 0 3.41.81 4.5 2.09C12.09 4.81 13.76 4 15.5 4 18.01 4 20 6 20 8.5c0 3.78-3.14 6.86-8.9 11.86l-1.0.99z"></path></svg></span></button></div></div><div class="link-card" data-id="card-107" data-fav-clone="true" data-position="5"><div class="link-top"><div class="fav" aria-hidden="true"><img src="data:image/webp;base64,UklGRiQDAABXRUJQVlA4WAoAAAAwAAAAPwAAPwAASUNDUMgBAAAAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADZBTFBIVgAAAA1g49rajPcPhvXQidZ+REkrWtYzz7XtzNQvaklETMAL6lbEiFIbv8YbR2iB+3o5OUc7wDrfnIQjAIzNxfl+yLnXGa6nOBnnWkr4gebYnPe+oLTg/P8CVlA4INgAAACwCACdASpAAEAAPnkskUYkoiGhMB38AJAPCUAYZkTfyv8M9Mx+AH4m8jR27/DPP/IGIYeq6PK+OQDPKGNzvNpKm7L9Nkza679ad98jXpAA/tDAlzTuGvEZ/fM/i7n07u6R07F9P+sr9bxJzE3WnspfL6Bw+ZftPYS/3gnaPnflPLckR3iQ/hhG2HEaqslg7V8y1MoAEV2VPQk87s4d/Fx0bq1qdwtzPRYS34iWXyHdhjtzJ8qzdGrAH4+gfkpNvKPVMyzzkXj9jVZ1DnRIYZQKllGPwTAAAAA=" alt="icon"></div><a href="https://soft98.ir/os/12921-%D8%AF%D8%A7%D9%86%D9%84%D9%80%D9%88%D8%AF%E2%80%8C-%D9%81%D8%B9%D9%80%D8%A7%D9%84-%D8%B3%D8%A7%D8%B2-%D9%88%DB%8C%D9%86%D8%AF%D9%88%D8%B2.html" target="_blank" rel="noopener noreferrer">Win Activator</a></div><div class="desc hidden"></div><div class="meta hidden"><button class="btn heart-btn favored" data-action="toggle-fav" aria-pressed="true"><span class="heart" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12.1 21.35l-1.1-.99C5.14 15.36 2 12.28 2 8.5 2 6 3.99 4 6.5 4c1.74 0 3.41.81 4.5 2.09C12.09 4.81 13.76 4 15.5 4 18.01 4 20 6 20 8.5c0 3.78-3.14 6.86-8.9 11.86l-1.0.99z"></path></svg></span></button></div></div><div class="link-card" data-id="card-112" data-fav-clone="true" data-position="6"><div class="link-top"><div class="fav" aria-hidden="true"><img src="data:image/webp;base64,UklGRh4EAABXRUJQVlA4WAoAAAAwAAAAPwAAPwAASUNDUMgBAAAAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADZBTFBI4gAAAA2AG9u26uYI7jez3YBTZnYNzA7dg1JDJ+IWlJkzZmiCn+C9PyOW7p3nUEFETAD+Q3+j42FL/6KhmS1rlFvUML0zQGyJ/exagM19iV8qwD+9B0H1mW3uYKOhxfCZQeMu7O1ZDyo4/RZh7FHDQzY5GjXg0wkl0evzfFxJUCvwu/8p4QOOIyIAkM1KeIBsVqK4Ya1Z4uM427cgoWMpNAc6JK4i2YU1ifTRL2q/Z12yyBBgXoYsuu8AVHyxx5qvOAHuZXh9zGEjgk6zmft4CwCos+CjZmsFYkds1EEoaZSGZOqXrTRWUDggRgEAAHAIAJ0BKkAAQAA+eTqXSSSjKiIkGArZQA8JZQZwC7ahkuAKEl3hj9o/Rs0RsErhL0II1WgxkdXj2jB/fzPay41aTvogoT4xUuDfpoAA/uz85Nk2rRcfp/iV8Fo44vcCucrPr/n9FBvSHl/8aR/jSPmLXX7bk/aABlwD0DlUUixZRozKR6xAf1/ZsqH2x9sYdmuNcziIc/d0Gfn/QdfXH/5zI792J93fVdmg4/oS7XlTmSAzXl8I2L73yYfavo4wI5KEu59QC9sOHpcdV2uURCUYjSu82KL0SLlyib0zaHjNIyxmMWH816JrDBipewuOStBuAz6HxwPZgkyUb/qX+t1xsDDiU26edOW8gk5rFQj01zIr6Pz2wNxMd1IJwAqJFHPyFnrKg68MC3tLetuYCwVUFFwtZcavj/dY5s5j0DInGThW3QAA" alt="icon"></div><a href="https://soft98.ir/os/windows-11/886-%D8%AF%D8%A7%D9%86%D9%84%D9%88%D8%AF-%D9%88%DB%8C%D9%86%D8%AF%D9%88%D8%B2-%DB%8C%D8%A7%D8%B2%D8%AF%E2%80%8C%D9%87-40.html" target="_blank" rel="noopener noreferrer">Windows 11</a></div><div class="desc hidden"></div><div class="meta hidden"><button class="btn heart-btn favored" data-action="toggle-fav" aria-pressed="true"><span class="heart" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12.1 21.35l-1.1-.99C5.14 15.36 2 12.28 2 8.5 2 6 3.99 4 6.5 4c1.74 0 3.41.81 4.5 2.09C12.09 4.81 13.76 4 15.5 4 18.01 4 20 6 20 8.5c0 3.78-3.14 6.86-8.9 11.86l-1.0.99z"></path></svg></span></button></div></div></div>
+        </div>
+      </section>
+
+      <div class="groups" id="mainGroups">
+        
+
+        
+      <section class="group" data-group="general">
+        <div class="group-header">
+          <div class="group-title">
+            <button class="toggle-btn" data-toggle="general" aria-expanded="true">
+              <span class="toggle-icon" aria-hidden="true">▾</span>
+              <span>General</span>
+            </button>
+            <div class="small"></div>
+          </div>
+          <div class="group-actions">
+            <button class="group-action-btn" data-action="edit-group">⚙️</button>
+          </div>
+        </div>
+        <div class="group-body" id="body-general">
+          <div class="links" id="links-general" aria-live="polite"><div class="link-card" data-id="card-101" data-position="1" data-fav="true"><div class="link-top"><div class="fav" aria-hidden="true"><img src="data:image/webp;base64,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" alt="icon"></div><a href="https://soft98.ir/internet/web-browser/244-google-chrome-desktop.html" target="_blank" rel="noopener noreferrer">Chrome</a></div><div class="desc hidden"></div><div class="meta hidden"><button class="btn" data-action="edit-card" aria-label="ویرایش"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21v-3.6l11-11 3.6 3.6-11 11H3z"></path><path d="M14.5 6.5l3 3"></path></svg></button><button class="btn heart-btn favored" data-action="toggle-fav" aria-pressed="true"><span class="heart" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12.1 21.35l-1.1-.99C5.14 15.36 2 12.28 2 8.5 2 6 3.99 4 6.5 4c1.74 0 3.41.81 4.5 2.09C12.09 4.81 13.76 4 15.5 4 18.01 4 20 6 20 8.5c0 3.78-3.14 6.86-8.9 11.86l-1.0.99z"></path></svg></span></button></div></div><div class="link-card" data-id="card-114" data-position="2"><div class="link-top"><div class="fav" aria-hidden="true"><img src="data:image/webp;base64,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" alt="icon"></div><a href="https://soft98.ir/internet/web-browser/38-opera.html" target="_blank" rel="noopener noreferrer">Opera</a></div><div class="desc hidden"></div><div class="meta hidden"><button class="btn" data-action="edit-card" aria-label="ویرایش"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21v-3.6l11-11 3.6 3.6-11 11H3z"></path><path d="M14.5 6.5l3 3"></path></svg></button><button class="btn heart-btn" data-action="toggle-fav" aria-pressed="false"><span class="heart" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12.1 21.35l-1.1-.99C5.14 15.36 2 12.28 2 8.5 2 6 3.99 4 6.5 4c1.74 0 3.41.81 4.5 2.09C12.09 4.81 13.76 4 15.5 4 18.01 4 20 6 20 8.5c0 3.78-3.14 6.86-8.9 11.86l-1.0.99"></path></svg></span></button></div></div><div class="link-card" data-id="card-108" data-position="3" data-fav="true"><div class="link-top"><div class="fav" aria-hidden="true"><img src="data:image/webp;base64,UklGRpgIAABXRUJQVlA4WAoAAAAwAAAAPwAAPwAASUNDUMgBAAAAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADZBTFBI0QIAAA2gtG3bGUkf0f2kkmpWY2yjNba1sm3b1tL2zMo2Ptu2zbbt4BlWVd4nIiYAblKorhswucJ0oH5Yk8SkuNq+UACl1el//vBTWrlKYe2H9oq0mPG04Ytu2iaxcdEXL/1QqUitkRMMBpiJCUxgAmnRif0HWjdfzlEgdvIEE2AmAggggAAQ2BPZeVqLW7cKXfIOWWYyAELgBMCIX9T81FvVbtRb3xiuMhldV6Uezghety0O3CWAImf3P/glB0cbOZ3B5MrThN4rr7/oBMMzox8AgvuEpts/vGoHpk3vCGWp5rZvrzoBjeoPlWO3fvKQA+g2jZVCra3Xv/Kv/iaG2tRk3e4sf7zrHKhO3YYcqvZjSGOo75mV/PbzYlawAEStOln4nCkmRHZreeNZtcdBpjH/bs4zhptCkND85adCJ0GqPu1WJYD2hhjqbH0PYDiLga/vq0B4T8ilQZ+Vo0G0IMSXpKKDKSmm4c+UwJI8ST9QHES3+dOoK4oaZ4SFiUJMlRYuy1eqkyyDHY8sYsfyiqrWrQqfqJJwszxaVJG3KqsxSfpfc36Ph2D+A/gpThdk/wz83ChaUGE6kFyaIOjXMKDys/6aGH4XAL8yIFJMyUcA8FNVZxLC3+pPld+ZpguxruCZL7eIIxH8S/Kzcm4t1kVYZ/HcO026kYQv/nte/plVPgHFJ+DnO//P1pSzL3n9qTo6oAcpxp+/D78z9q1tQkpx8jEE+NXVHTWVytuJQPmlD7bFKpS/RwsI9rWvd9QkVXL26giifeODbU1ICf5/jwdBtR/eWNtDU8D+/CiC/uW+AbN95BIXX3kPLmYc+X91N53cML886YWr1e+cabw4TqdgmT+d/w+u59272XxGp0gtCFz8zfUUqMi5r9w0B/RPiNZBz2HYRb+884kOZSt+fOXz4kYJcY1iIg1Ulxcm//5LcrgGpbki9ecf/sisqnDg0UM1gosAVlA4INADAABwFQCdASpAAEAAPnkwk0akoqGhMBgMAJAPCWwAqpVBWR4SZj97fyA8VdmDp+YB+oG4A/ZzfAP6X/tOth9ADyyP3A+Bz9q/SA0UjxgbBBfqqAfxveAP0vLdihk96O50SUv/ceDcufzVcHsEt6SaetqxCM5YQurZ+OSjOMUWwjO7g3Q+joGR3QoR1ccMzh8ElVosv2fM//asdoBjXKJwGii7Z0Zs81wEGq1bwSURnngKd379tAAA/vxO4V87Z+Cz9/TncAAndBk0mPe4AuosQKhR80DyJ3bQUEx4qewIcEINs36B691P9NdRT2WtuMJ1BGx7mT6EYxFy2I6T3HQMTjNdcyvNKfpMiR7YTaQi1xH3vL6DvoNM4qaSuykjPMPlnZ0HuNlMe1y3p/ysCABZB8U46mtBcR5ZljciNwuh08eyZ0EnBnNPj6h0L8A01IPVGFMv8a85dJW1rgkoMWlrUzaIzzvMxQ4rkWfWetggF1uGhMH4zQRqsryXMjQpeh7qllgB3bf0f7jFM/WuqMYx6KHcknSdFWZ/nHqbyvMXH6DM5H+EGDyuGM1KyX/98WMB7nspPQqbp8NGkw7D90EUnLL+5eUztwD4G9LHftT+hhVR1lRuIrZP9kTBt6EfihRd4fOalsXj+3T7oyBUS73cB2LO1Q9JdSHd458pmKfVlK/IBIwnhD+oJJd9WkRXcBER7XDP2OOFBnKSw1vYd/MjXRVS9ygkUzLhG/86Tm/LCe4H78Kmgpc3zX3DOVvbNtvaQptoJSTVv+gQxWAL2zsw4T7yMKI1Bcc6bfvPjcMqKOxSfw9heWSaqVMdFP5H0O9xVx2Ef65n+mpj2LiKRAm8henfrj+szzYPzeyZd48/5cbvKNsnyr4Tq/sYf/jFLbW1rqWR+RBSEWrSkOe5a8hrbSpjn9tjgdopRqF26mI2OvSw7uT1JkjN2jFDEsRkCHm51M01Ql4pjx5XxvL3cgEUnKAQWxtcSAzzKylaARm2GnkBsJgULF5xHJzjfDvNXkcdMRlkh1AQM8wsfGdCfKQS8I6Lsx00+GvDpfu32s4r/RoJE/WgvEoGNVy69Z+lu27JaZXpP/AgJCYAUdEVG80iq/3uSLDjCvzwSHQDtwqYHRwjTSb86OwqapPlQ79MlIZWR762gT1mJpUH+qDQIaL7rJfydu0RfDpPVfgzaopb9YfCbBOE0oTcIG1NYi4nF55BG2NCWpW6VKPOk/IiKB8dSaoK6uQkZnWvA3SJT3msZ68id3H1Ad//GriuEpw63wzedYPXslq/Z9FiqqvFnJ2Y8oAA" alt="icon"></div><a href="https://github.com/2dust/v2rayN/releases" target="_blank" rel="noopener noreferrer">V2RayN</a></div><div class="desc hidden"></div><div class="meta hidden"><button class="btn" data-action="edit-card" aria-label="ویرایش"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21v-3.6l11-11 3.6 3.6-11 11H3z"></path><path d="M14.5 6.5l3 3"></path></svg></button><button class="btn heart-btn favored" data-action="toggle-fav" aria-pressed="true"><span class="heart" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12.1 21.35l-1.1-.99C5.14 15.36 2 12.28 2 8.5 2 6 3.99 4 6.5 4c1.74 0 3.41.81 4.5 2.09C12.09 4.81 13.76 4 15.5 4 18.01 4 20 6 20 8.5c0 3.78-3.14 6.86-8.9 11.86l-1.0.99"></path></svg></span></button></div></div><div class="link-card" data-id="card-115" data-position="4" data-fav="true"><div class="link-top"><div class="fav" aria-hidden="true"><img src="data:image/webp;base64,UklGRi4KAABXRUJQVlA4WAoAAAAwAAAAPwAAPwAASUNDUMgBAAAAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADZBTFBIpAMAAA2gBUm2aduqsa5t27Zt27Zt27Zt27Zt27bve++Mj4W99trx/iNiAvg/NBKmixEzmXHv9aM7bwMhZ93KoKqaInaSVO/3rz2lngpbvQ9mUQDRtCVqxJ42+49nQrWtga2AogKSpEPFAavUG5nnYakIgKCYJe7YCK1eeaFBO8yKCLaiKgDlh3Y97L9+qVBRAVBExaQG1rGXrlzsr75hUVFRBEANFMFpiNknF/inbjoQxVIRAQFRBxgzVh31R74m2AuoCpbihBCrO7x0L/RszAIoKoK70Sc0Vtf6Y6uIGrhePPZyVyKVSRvvt40Kgq8qDhg79LtPRu1GWUHVRvBz7KozfZAa/QFUxAZQcaSIMzpNC3KUai6uqjhQEcRZ3PR7HUj7JtiKI8GhiuBz1Y124edjL7isBi6W2WUTYyO26kwFFAEVNXAzPtbRNmCrauBUAMEcZOBuNovwy7EPuiDZndirIbic2CSrsFXmrFyWUHxTwfWEptbYalB7CK34LrgfDUjY0UqRbkCQ4Zsi7gUD5mItuvI98E9wxBfBj++gSEgbfg4GeJ5A8fAz6I/9DszvYuBQQfz0jhTxHRyzuJTFiQAo4ocL1MZW5bXF6dw2KliKYqvi06e3VLaDJI9M3+5lVQQVQUVFwVAVQBDsFTEdIVoCO6HMLhMr6ykqAgiCAIJDBcGsAmwiMw614M8LpnVVQqioyV7FRjEAFAEVvuwnmRMJNq3jP8CzM9VFDVQcCGYFA7MKCMACSOMEsndv8A8wvE8wwU0BUEQFBODXDAjrTCrXavILbpxuBohvloIKCObxgKHiBKncp+l16NUlNqi4A4IK5pdLgT+hcC7plh0d9v5zz7kguC9YdgA4n90HCN626/6ZQ671VcQ928mR9hx4dzq3TxCuVtv3Hd9lwP8JipX6r+WdyLF8QyhZVlX8x98hF9FtFV0ABC8+bgywrrq44skNwzAfiJM2MH50+oylDh8QEFeaYL82UU7xnE5bgUNtPS2k1z40wfmVFaMNbx3qhK9Tgzp76d8B5/C9W7S+3nncEFf7PZwbwSNrRuHy6mkzM3nhR6fvuH6tRame4fx2tTH+/D12Zdtm4fwzdTl+fj5uW9P6id171xQPvp22IlaZ0hnCWOnDse0y2h3qgjf1zK7d9yJljRjc+PfL3d9kyGP176AzePj364tf/w3CfCOdxeOGBOrNtKY1owjYG+ngR6fvBO6bEFGvNCGQ9d7uFQR2DQL9uf8AVlA4IJQEAAAQFgCdASpAAEAAPnkwk0YkoyGhMBYN+JAPCWwAwcMqto+4eYnT/79sS5Wa+3qA/QfsAc8PzDftV6xvpV85L/AdZr6AHSo+UzmEv4Ad/XffXfNmLzPI7V5NzeoP0m/Qr/WZz0gFd/mXR8YeC5v/wY9520hGHlkphtK9r9chN7V0KJHCcaX8NWypomfYVfNMOOs1Y8g2TmWxRaga5QW7nhB8my2rpSNMv3mvJ80xmIo7wG9l0wA+q3c/4AD+9YOX/ykZr/0gf/gz5/ORvEem7urHy0HUkTWz0ALjGI7QVQfqIRsGNU1KugOG9vmIaHIz46+YQmWFHJ0WYLrSwohLBR+EtFPD8PrmcT8Sb7yoHJZQtsfQDyUOEc41XEAqPwE46Scmn15yWi6cgmPks8Rr6Wdc+YqOEv39Cj+f+zYpq0dlUBLJAwa2wA72l8UPjDlf5wMnY6J0ocpZZuSfBtcOmuKcrWsxQO7bdkUrCD1c1OoWeJbQEQVmy2INZdhlSJi6aFO4glJm5j1BjZ5IG185fOgH5efuOExmV+GJDEP5QFRvvCOqp98Ubct0azbo1QWm3MBzfj+Kv4l0cj30k17EDy5RG+yET3gZYhD575t1pgA5AXnMDnU/2OHkIsDo2sTsQQDOfqg//Ha2s79X4ENjOOHfqxTigd2uceoGYzzeQyJiXMqVvPwuSvT0vWajgLDWAOwolOPAUjz5weNCb5gMgIE8CJ0K1esqewx2lMntTW/cJbpMskuBRDgWmrHniPLwwMIECSvwo3rJUumA4Tuv72L1FyOOI8Fd+lBugMprNfEoRQo8RCMOS+AOfNj2bduM4Z/tnK48nmFMOzsgDthCPeKPNm0nbmochcxNbzcHXrajCWUMj8WDP40ZvKhskdeO6kAukYZFEanDelM2mtSmhSfhgmAiIAOtd1zFFU3zP0PGp3kOrve1Md3G2xgQuoFB8gbsmBslPfJhcQeBpj1XjATvSFFtrF9T/rsJ2eul/qu5fiM8n89W0SBmpWZG+wamo/fLb5d3XamzQk+4aIZS0Km0tD5clhWO3kRWu81z2eGA/74awk5HpNVXs9VloPYaOaX7ezESSyb5FrO9Her34WDaNooaNMbG2TgY2cQci9s241m/aJqOJi4kNod6lTYZQGrllsKhH+i0HUHGyutAwJLS1JaG+poJAEdQ8HrhszDKJj2GCpjvzgNhg4eFbH8exCG0erD8Rq84YhmTrxkW2H6I3WUROr4tA8v2seRTLajNb9i9RRJuPGU5WwjMR7ljfic3U8fmf2HdI0yGtuG4CxT3w1omyOHPNEZn+0W4CXa/DuRW8YKd4wGKB5wR2maQo8n5/y1IhGYc72VrE1Pmo4iK/vEpb/YRByWLK9OQ9v5+lQ4P8Seqbys4wlu0jISM9fsUtKZZ2S/8nPnU3h7y0/bH41ZrGu77JCPDA+htBauU+nLJsabySjcpz3/sG5YegluABdqX8rLKEEsYF9yBSAwJjfKEOfIus76MTOdz/Kxg72M4QPZP4tH/9Rp/8gv//p2P/2H+jt6+HCaJSq6nPkPlJoAAAA==" alt="icon"></div><a href="https://soft98.ir/internet/download-manager/4-internet-download-manager-4.html" target="_blank" rel="noopener noreferrer">IDM</a></div><div class="desc hidden"></div><div class="meta hidden"><button class="btn" data-action="edit-card" aria-label="ویرایش"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21v-3.6l11-11 3.6 3.6-11 11H3z"></path><path d="M14.5 6.5l3 3"></path></svg></button><button class="btn heart-btn favored" data-action="toggle-fav" aria-pressed="true"><span class="heart" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12.1 21.35l-1.1-.99C5.14 15.36 2 12.28 2 8.5 2 6 3.99 4 6.5 4c1.74 0 3.41.81 4.5 2.09C12.09 4.81 13.76 4 15.5 4 18.01 4 20 6 20 8.5c0 3.78-3.14 6.86-8.9 11.86l-1.0.99"></path></svg></span></button></div></div><div class="link-card" data-id="card-109" data-position="5"><div class="link-top"><div class="fav" aria-hidden="true"><img src="data:image/webp;base64,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" alt="icon"></div><a href="https://soft98.ir/software/compress/21-winrar-full.html" target="_blank" rel="noopener noreferrer">Winrar</a></div><div class="desc hidden"></div><div class="meta hidden"><button class="btn" data-action="edit-card" aria-label="ویرایش"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21v-3.6l11-11 3.6 3.6-11 11H3z"></path><path d="M14.5 6.5l3 3"></path></svg></button><button class="btn heart-btn" data-action="toggle-fav" aria-pressed="false"><span class="heart" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12.1 21.35l-1.1-.99C5.14 15.36 2 12.28 2 8.5 2 6 3.99 4 6.5 4c1.74 0 3.41.81 4.5 2.09C12.09 4.81 13.76 4 15.5 4 18.01 4 20 6 20 8.5c0 3.78-3.14 6.86-8.9 11.86l-1.0.99"></path></svg></span></button></div></div><div class="link-card" data-id="card-111" data-position="6"><div class="link-top"><div class="fav" aria-hidden="true"><img src="data:image/webp;base64,UklGRmQEAABXRUJQVlA4WAoAAAAwAAAAPwAAPwAASUNDUMgBAAAAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADZBTFBIPAEAAA2Qg23bsTf3j/eL9WW0rSn5p9i2vdnOaGvnlDEzyimaatu23f44krtuh4iYAOi2jtF428lmkoBWoYL+H95B67t3Lx/eOL29/gCGBveEY3dVQpsQprKdd0jkxvCWXpazgdjj6pSuy7UPdHktgzG/o+qINs85cDotNB/5xmoZrPJi1X0AU+B17K4GQr2JkHPvMFpB3TliHc4VezQG3OroEDKE+rB527PZ2bDJZmxmajYh0SnZYEz3/8+PSra3Etvv/49KtrcS2ft3guztS1Oyl49syB7csCO7edqb7PSmhmxzf5ig+rjv0eEMqlVgrE3BNArsnC0mWgGAhmYXmht93zwqW5JJHpdC64naJSeKGyXQeayso5BgpQ96Pqq92Juo3lMf14dg4NbATozGy97WVBK79P7ti0c3Tm/vg25WUDggMgEAAHAJAJ0BKkAAQAA+aTCQRiQjoaE3/qgAgA0JZgDQwDD6bgJzvTABcwHUAbyl+zv6NYg6GBHMpXpBJpcxn4jue10+gJV3hka7p9wBl2shpc1NoNSzAAD+9BBxt/22GR7W1sqt8PP/OY9y3dCDGiE16HpPPVp03ZzH/49nc1w2NQRoIfEm2HGf7P2xXUsOHP6gC/c/+fm3dbfoCd5KcZF0obWngnibd6qZuOjzlj1aHXtOdf/g5Ms3L/81Q/5nOP9gEO2QBoBTKJbFdaOU7ogBGukFsHxqsrDCs5pRkwMcMseIGcGxv5oi+vjd1XgzeqVbaoEKFldT2CotslTZ8uz4K08RxKsqaL0Yh37bTwy6sILx6ZFXZ/nG9PnwhYheQb/JP9HFPjvH504wX+ZidxsjhkvcAA==" alt="icon"></div><a href="https://yekdown.com/topaz-gigapixel-ai-6-2-2-portable-%D8%AA%D8%BA%DB%8C%DB%8C%D8%B1-%D8%B3%D8%A7%DB%8C%D8%B2-%D8%B9%DA%A9%D8%B3-%D8%A8%D8%A7-%D8%AD%D9%81%D8%B8-%DA%A9%DB%8C%D9%81%DB%8C%D8%AA/" target="_blank" rel="noopener noreferrer">GigaPixel Ai</a></div><div class="desc hidden"></div><div class="meta hidden"><button class="btn" data-action="edit-card" aria-label="ویرایش"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21v-3.6l11-11 3.6 3.6-11 11H3z"></path><path d="M14.5 6.5l3 3"></path></svg></button><button class="btn heart-btn" data-action="toggle-fav" aria-pressed="false"><span class="heart" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12.1 21.35l-1.1-.99C5.14 15.36 2 12.28 2 8.5 2 6 3.99 4 6.5 4c1.74 0 3.41.81 4.5 2.09C12.09 4.81 13.76 4 15.5 4 18.01 4 20 6 20 8.5c0 3.78-3.14 6.86-8.9 11.86l-1.0.99"></path></svg></span></button></div></div><div class="link-card" data-id="card-104" data-position="7"><div class="link-top"><div class="fav" aria-hidden="true"><img src="data:image/webp;base64,UklGRjAEAABXRUJQVlA4WAoAAAAwAAAAPwAAPwAASUNDUMgBAAAAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADZBTFBIkQAAAAEX0P+ICMCNJMlxVL1xA6KxhU4NaTCdPhHPFJgAn3E7MsSI/k8AX9oZRO4fr3IqvqbMZGZlZlxNZDos1UyBMrkmDEzWVmsG9CZaAViqDReA0r0bbz4nazQ0G1ibyM2uaMgD3f7VoHxo2tOswNWqrStQr0TLgtibZGBN15nK1eoyV+oVZazoTfqi1zr3xJH75gIAVlA4IKgBAAAQCwCdASpAAEAAPnk4lkikoyIhKBgKqJAPCWgAyi6Qcf9wBuUeIB0gPMBugH9u6kDnsvYp/cj9ZvYATwHtie0mAo7sO12Y8Fpsrh4FT0iOVjIBF2thyMuWOxo5RYKpkoQAAP7cUf/8Wh28+DLzf/3jP/7jP/7jP66WJzysHi55jm2K04VzjXEHODnyQAaL5A5DpVXcYkrO/7un/hGaGLX00HzFbX+/KNWCq4+10/yQ86xkW+pB0S3mpIpxywGYkwcw+uT+q6R3+K7Xfi3m3nh8PHcuKfoi4+c/4usAJKQEkBqrxhesl2DNMIKGg3HbARNLh4fOcw6BkVUL9EL4zR0gIA/z5Bl8w13q5Jgz4cW7yR7lDVS5txQUGfCaSsAkNDRcypJU5BMhyqPRm/N2liU9uO3EEM4pmfk9uX5Jtmo9gBqwT8k5kEjI6koEvhbec8JAZjpxDXC6aXmQZfqqnY/f4TJRZK+YoumPIbQnpK6RwKRyZjChX4N47fhZRWL2hr1V5X/hUgbfJhOaxIEvqbP/QCv5acg+JuoDBD56AKX4xsw7u+38AAAA" alt="icon"></div><a href="https://soft98.ir/internet/remote-control/15737-anydesk-download.html" target="_blank" rel="noopener noreferrer">AnyDesk</a></div><div class="desc hidden"></div><div class="meta hidden"><button class="btn" data-action="edit-card" aria-label="ویرایش"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21v-3.6l11-11 3.6 3.6-11 11H3z"></path><path d="M14.5 6.5l3 3"></path></svg></button><button class="btn heart-btn" data-action="toggle-fav" aria-pressed="false"><span class="heart" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12.1 21.35l-1.1-.99C5.14 15.36 2 12.28 2 8.5 2 6 3.99 4 6.5 4c1.74 0 3.41.81 4.5 2.09C12.09 4.81 13.76 4 15.5 4 18.01 4 20 6 20 8.5c0 3.78-3.14 6.86-8.9 11.86l-1.0.99"></path></svg></span></button></div></div><div class="link-card" data-id="card-110" data-position="8"><div class="link-top"><div class="fav" aria-hidden="true"><img src="data:image/webp;base64,UklGRo4FAABXRUJQVlA4WAoAAAAwAAAAPwAAPwAASUNDUMgBAAAAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADZBTFBIbwAAAA1wUGvbk7z/jgANCLCMwKGBqwJpHBmsQIUVwAa/EZhfgDeAETEBAIxW4JRjB6CStrSKQrbh8ROkH7Aqd2rO0bRgzpqHyalQTdpy+Q1/n8rqqRa3TxVVb/dXnRF9OyXxXleBZO47DRzxPS2KQrxTAABWUDggKAMAAHASAJ0BKkAAQAA+eTaUR6SjIiEsFVswkA8JbAC8YF+Ex69+SvMQ8deB8mrgL+J70k/MB+s3rJdIB+yvWm+gB5bXsgeS5//6YDtHBgdkCYEqib0ekD4Qf8saWeOgJX2uFL0hmRwCtarUWpdOGpAZVm6vFdN/l8WCs/1scs1JjSaR8tvb5qWDtU+i6oxOI1WZfF62s5aQcK3xw0NlAAD5bO5fQ+vrEGGHhkUpKD0d6nJf//fkg/8xMoqvwy7/w2r/FCP/gKbaysCRbV2Smnn0AiKQJXySn4Y/+jKF6BhYvpiJ7buo/lsTV+O6neuZi9imyxF7s2pQN+ATt60X8fbKefigU0tAo/R2+qhCBEUashAgFjH+tdV+VT/4ouCz5VrEEJPlFvoippRiZkBvkC8RrKnsG0ChVax6d+V74KH5embwl0dqmC7QsQNyEPQrzAdnZ2BjJeWHmv3ozlYwdrjRAPf/m89DZb/KIoEgEx/C0vPDkVXk23NMqXPOFytD3+HUUmcTF4atZoTSnirNf5717c6DKhl2ZlPJIk9kyh+lVijDioF6Z2IIAgM3G4tipSbfWZef66Dor3wU5Fw+XSLEfPYqvfMU0w2AYXVTU8u/mbToQX4I5R36cygbRsR8PN6nAFaV5Pcrr+9OWmz3CXIkUDagVAWAR6Lnr+Pqkx5qUNTd7hL3EQ2H6W/F2LNIY1ApS6sBda+b7jDjciNZZBVxIzG3wbqYaeHI8lD1K++7Qt8ftDwsPpVoZIuAE4Xt8lA+FXzzE3+Zv8V2PpHmhZiS+H7yG8o6snf3N/ZOT/soa3ALPfIYG5j5ZY0jMw7gduZoZrfaU+UOI0ov6e8KhLc3UwHfBo9+OH854AFs2mAJzkMRvZD8X7UnG/nNKfmkhrE6hYiegfpICPuH/lgRL0CHZ4r9jsnH+GlESlx4JPwx+a64mfPcm/Ab7mNtCnG2X7Ee1OYn60HHyzL+/Od51MDbQSy7zOhinDZyU7g4rn7/Gnyx8skqs1rgdWpiJ3OcuZUXipw7Y1tsUul/Lt94KR1ZaMDqa3/pfh8312D3vxC33CJ8OE/FlNmMYAA=" alt="icon"></div><a href="https://soft98.ir/multi-media/video-player/2438-potplayer.html" target="_blank" rel="noopener noreferrer">PotPlayer</a></div><div class="desc hidden"></div><div class="meta hidden"><button class="btn" data-action="edit-card" aria-label="ویرایش"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21v-3.6l11-11 3.6 3.6-11 11H3z"></path><path d="M14.5 6.5l3 3"></path></svg></button><button class="btn heart-btn" data-action="toggle-fav" aria-pressed="false"><span class="heart" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12.1 21.35l-1.1-.99C5.14 15.36 2 12.28 2 8.5 2 6 3.99 4 6.5 4c1.74 0 3.41.81 4.5 2.09C12.09 4.81 13.76 4 15.5 4 18.01 4 20 6 20 8.5c0 3.78-3.14 6.86-8.9 11.86l-1.0.99"></path></svg></span></button></div></div><div class="link-card" data-id="card-117" data-position="9"><div class="link-top"><div class="fav" aria-hidden="true"><img src="data:image/webp;base64,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" alt="icon"></div><a href="https://soft98.ir/multi-media/video-player/496-vlc-media-player.html" target="_blank" rel="noopener noreferrer">VLC Player</a></div><div class="desc hidden"></div><div class="meta hidden"><button class="btn" data-action="edit-card" aria-label="ویرایش"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21v-3.6l11-11 3.6 3.6-11 11H3z"></path><path d="M14.5 6.5l3 3"></path></svg></button><button class="btn heart-btn" data-action="toggle-fav" aria-pressed="false"><span class="heart" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12.1 21.35l-1.1-.99C5.14 15.36 2 12.28 2 8.5 2 6 3.99 4 6.5 4c1.74 0 3.41.81 4.5 2.09C12.09 4.81 13.76 4 15.5 4 18.01 4 20 6 20 8.5c0 3.78-3.14 6.86-8.9 11.86l-1.0.99"></path></svg></span></button></div></div><div class="link-card" data-id="card-105" data-position="10"><div class="link-top"><div class="fav" aria-hidden="true"><img src="data:image/webp;base64,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" alt="icon"></div><a href="https://soft98.ir/software/office/14445-%D8%A2%D9%81%DB%8C%D8%B3-2024.html#:~:text=%D9%88%D8%B1%DA%98%D9%86" target="_blank" rel="noopener noreferrer">Office 2024</a></div><div class="desc hidden"></div><div class="meta hidden"><button class="btn" data-action="edit-card" aria-label="ویرایش"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21v-3.6l11-11 3.6 3.6-11 11H3z"></path><path d="M14.5 6.5l3 3"></path></svg></button><button class="btn heart-btn" data-action="toggle-fav" aria-pressed="false"><span class="heart" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12.1 21.35l-1.1-.99C5.14 15.36 2 12.28 2 8.5 2 6 3.99 4 6.5 4c1.74 0 3.41.81 4.5 2.09C12.09 4.81 13.76 4 15.5 4 18.01 4 20 6 20 8.5c0 3.78-3.14 6.86-8.9 11.86l-1.0.99"></path></svg></span></button></div></div><div class="link-card" data-id="card-116" data-position="11"><div class="link-top"><div class="fav" aria-hidden="true"><img src="data:image/webp;base64,UklGRnAFAABXRUJQVlA4WAoAAAAwAAAAPwAAPwAASUNDUMgBAAAAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADZBTFBIbAAAAAFnoLaRpDb83hDxMTaiISIioDer+2TUZwKT2ralML6FpQqUoAMS+xKQghZzBBS4v24rpns9IqL/EzCCHXfRbeCddgOBy2Ayl8FkLoPJXAaTueK4wHjZcOO8IqrqK6+N7nl7U97y/tODahtVPVZQOCAOAwAA8BAAnQEqQABAAD55NJNGpKMhoS4W3VCQDwlsALXVtNgeDH4X8VfyA6SHppyi/Lb29SO2j8wHnj+hbzZuoA3jnyo2ieuDlnVRucMMrcID/RN41/pj0J1em0y/PnjiqxHluugl666KTxzIkLHMv8v56yMWy7x53ql9QzqCCvTrFrQhnDO6zmBMp156s6aTUgQAAP7tKt/ty3zSw9bn/W1vlN3iTLTey1Kt+tEs5kJw2+u48xmg/XboZp1LBMD622SN6fFduNnxXjR3htVS3pSAe9h8fVGt0oiudq+B/BKCqjxFyeWBT+NhoqlT5GKp92/fbLIjaHICdoH6Bdos/3KNumbOp2jyJPsvvpFjQ6O/ji3L9ueS+vetyPLDCvey8I91MHLuM16FdFQsVolc50PU6ux+IUTwEiN/6aZQPLgkzxiLk0Bx+g1j0lYmdLJPJHN0ZNUXynaAIn7JVE+zVCubNELPewCEkXcqWUq5ZV6/adieJMr+j90XXFDvgCwFzUMX5RJ1db0yBEZs4GuhG27u4x4Q7RBDKp5Fqeor6NImQ4iAJZ3zdD55BxRY2dHiBcjsPsESuZkRaARgCHdRLwcjKx7jyOECceHjDbG1KmLE0iKiSi9/1iQPoo2uViQ4AN7hVr5ZgQ1L+AYWDnNnx3Jbpsju296hUTtZ+n6ADZz6BZduzMsyUt4eOP0V6dngIYpPA6/TxDlPSqG2diNMvBJdazkclyKsT6YuhBb4XkxvMk+1SlW83n+Iyg4Tm2oCD6aYBdkDMhUo4ZFV6/FkE2kMI+gOZkiNRzLl4wMdwF5+QdNviYvI4h6VEI/yWj1kDRS+IFXrvg4UmulgFCpAtMczdzd34YI7K+YDgey6TqqukiUasBSQ0nCzkIOhs1y1pR+qaQLNqBIqjOCKIpLeRvoDzeEGEKbgzJCOm5xD7uUJ0EIiwADBQzygdtvv9AFJ7zfHyktXuV/DAgEOotyQ/ZD1zPjYSNtE4fy8qvbR+r40lXzV9s2pEnXvXcM1RBDJHfkdlAsqg94eVL6N2F2AAAA=" alt="icon"></div><a href="https://soft98.ir/software/pdf/44-foxit-reader.html" target="_blank" rel="noopener noreferrer">FoxitReader</a></div><div class="desc hidden"></div><div class="meta hidden"><button class="btn" data-action="edit-card" aria-label="ویرایش"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21v-3.6l11-11 3.6 3.6-11 11H3z"></path><path d="M14.5 6.5l3 3"></path></svg></button><button class="btn heart-btn" data-action="toggle-fav" aria-pressed="false"><span class="heart" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12.1 21.35l-1.1-.99C5.14 15.36 2 12.28 2 8.5 2 6 3.99 4 6.5 4c1.74 0 3.41.81 4.5 2.09C12.09 4.81 13.76 4 15.5 4 18.01 4 20 6 20 8.5c0 3.78-3.14 6.86-8.9 11.86l-1.0.99"></path></svg></span></button></div></div><div class="link-card" data-id="card-102" data-position="12"><div class="link-top"><div class="fav" aria-hidden="true"><img src="data:image/webp;base64,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" alt="icon"></div><a href="https://massgrave.dev/" target="_blank" rel="noopener noreferrer">MAS</a></div><div class="desc hidden"></div><div class="meta hidden"><button class="btn" data-action="edit-card" aria-label="ویرایش"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21v-3.6l11-11 3.6 3.6-11 11H3z"></path><path d="M14.5 6.5l3 3"></path></svg></button><button class="btn heart-btn" data-action="toggle-fav" aria-pressed="false"><span class="heart" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12.1 21.35l-1.1-.99C5.14 15.36 2 12.28 2 8.5 2 6 3.99 4 6.5 4c1.74 0 3.41.81 4.5 2.09C12.09 4.81 13.76 4 15.5 4 18.01 4 20 6 20 8.5c0 3.78-3.14 6.86-8.9 11.86l-1.0.99"></path></svg></span></button></div></div></div>
+        </div>
+      </section><section class="group" data-group="system">
+        <div class="group-header">
+          <div class="group-title">
+            <button class="toggle-btn" data-toggle="system" aria-expanded="false">
+              <span class="toggle-icon collapsed" aria-hidden="true">▾</span>
+              <span>System</span>
+            </button>
+            <div class="small"></div>
+          </div>
+          <div class="group-actions">
+            <button class="group-action-btn" data-action="edit-group">⚙️</button>
+          </div>
+        </div>
+        <div class="group-body collapsed" id="body-system">
+          <div class="links" id="links-system" aria-live="polite"><div class="link-card" data-id="card-106" data-position="6"><div class="link-top"><div class="fav" aria-hidden="true"><img src="data:image/webp;base64,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" alt="icon"></div><a href="https://sergeistrelec.name/" target="_blank" rel="noopener noreferrer">Sergei Sterlec</a></div><div class="desc hidden"></div><div class="meta hidden"><button class="btn" data-action="edit-card" aria-label="ویرایش"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21v-3.6l11-11 3.6 3.6-11 11H3z"></path><path d="M14.5 6.5l3 3"></path></svg></button><button class="btn heart-btn" data-action="toggle-fav" aria-pressed="false"><span class="heart" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12.1 21.35l-1.1-.99C5.14 15.36 2 12.28 2 8.5 2 6 3.99 4 6.5 4c1.74 0 3.41.81 4.5 2.09C12.09 4.81 13.76 4 15.5 4 18.01 4 20 6 20 8.5c0 3.78-3.14 6.86-8.9 11.86l-1.0.99"></path></svg></span></button></div></div><div class="link-card" data-id="card-107" data-position="8" data-fav="true"><div class="link-top"><div class="fav" aria-hidden="true"><img src="data:image/webp;base64,UklGRiQDAABXRUJQVlA4WAoAAAAwAAAAPwAAPwAASUNDUMgBAAAAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADZBTFBIVgAAAA1g49rajPcPhvXQidZ+REkrWtYzz7XtzNQvaklETMAL6lbEiFIbv8YbR2iB+3o5OUc7wDrfnIQjAIzNxfl+yLnXGa6nOBnnWkr4gebYnPe+oLTg/P8CVlA4INgAAACwCACdASpAAEAAPnkskUYkoiGhMB38AJAPCUAYZkTfyv8M9Mx+AH4m8jR27/DPP/IGIYeq6PK+OQDPKGNzvNpKm7L9Nkza679ad98jXpAA/tDAlzTuGvEZ/fM/i7n07u6R07F9P+sr9bxJzE3WnspfL6Bw+ZftPYS/3gnaPnflPLckR3iQ/hhG2HEaqslg7V8y1MoAEV2VPQk87s4d/Fx0bq1qdwtzPRYS34iWXyHdhjtzJ8qzdGrAH4+gfkpNvKPVMyzzkXj9jVZ1DnRIYZQKllGPwTAAAAA=" alt="icon"></div><a href="https://soft98.ir/os/12921-%D8%AF%D8%A7%D9%86%D9%84%D9%80%D9%88%D8%AF%E2%80%8C-%D9%81%D8%B9%D9%80%D8%A7%D9%84-%D8%B3%D8%A7%D8%B2-%D9%88%DB%8C%D9%86%D8%AF%D9%88%D8%B2.html" target="_blank" rel="noopener noreferrer">Win Activator</a></div><div class="desc hidden"></div><div class="meta hidden"><button class="btn" data-action="edit-card" aria-label="ویرایش"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21v-3.6l11-11 3.6 3.6-11 11H3z"></path><path d="M14.5 6.5l3 3"></path></svg></button><button class="btn heart-btn favored" data-action="toggle-fav" aria-pressed="true"><span class="heart" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12.1 21.35l-1.1-.99C5.14 15.36 2 12.28 2 8.5 2 6 3.99 4 6.5 4c1.74 0 3.41.81 4.5 2.09C12.09 4.81 13.76 4 15.5 4 18.01 4 20 6 20 8.5c0 3.78-3.14 6.86-8.9 11.86l-1.0.99"></path></svg></span></button></div></div><div class="link-card" data-id="card-103" data-position="15" data-fav="true"><div class="link-top"><div class="fav" aria-hidden="true"><img src="data:image/webp;base64,UklGRvIEAABXRUJQVlA4WAoAAAAwAAAAPwAAPwAASUNDUMgBAAAAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADZBTFBI7wAAAA2Agv3/4uR3Ouzu2fISDs3dort7tMporhGqRXfX6m7RIZHnejJN9+s8ETEB4M8klebHayhQrqR/Ozt4FiAwk9DHuSQ3KJlSx+QUWsZfBT+uoUYAxRMkxWTqtlfNAFy32g04GU5nnDazzSFuwErwLbbl8HI34CXU7fujTsBMaDtyALcqlUcGPIuNpbHRJDYS/n0sk8hkkUYmulhkLhOPzHSZqkLlfBjs0BKI3H9zv/ttGgKN2zDPupbsLTyBxG1aCgGwTOt7OQaFYJ7kAADMa1s9WQxFEopyy5JwPcVAQOF1wlyQE6OhFCTpPy9PGfAHAFZQOCAMAgAAsAwAnQEqQABAAD55NpZHpKKiISwVWmiQDwlmAMW06/pe/4G/6+JwG2A8wHQx9AD/t+jJ6gHoV+W17NnkANECqReyriF26nAxoZ0ZgygN/OLt19pdBJwZTmLSaCHHhjTFaTSttgCPnpJ0eMZvzoAA/vtCg+vnqB5aV/f/Mm93bDlZoMcKBx+0nlZ8LPc8x1+3uVIdWoasyHz0u9katSwt81ReEl80mS3r4ltuvqS/7L39Q9tSZc7YeCMzqgV7sAQBbts7ZPv4J+OXNXEou5xW1NZsfuFEwz763XEPyZEfFjUkcGrXly9g1ne2/I/hiSx5CbGyDnNWFb24GxaNI6QEvY9l8GwqUf0CI2awYs/d3FGl82k+dPSjsWWTTSLaHH0EtKctlXj2a7DTZlqve2OGxzinECCd4PBfK3tEfKs2qRH2rbx9q4FaLNmdati3hIccdIrHzyG680+1uNanpSYmBK471/qXmcr4falEJ4bgS6TVmCEcqug72wh6n/xz50f0+lUTnXlvZXj8b/xkriUlJtcrchzsKlu2Au4Sq5EH4383VlNmHVZLnHb/9ImWdr7A8hGSnXqyIizjCdtTlzkUNio5ZRrHoueq7SLcwyxo/oX7H1ZIB0VIFiphDV/GhNLtrT9eH09Qw7Q5WxYUT5EP54N58EPE0bQjeqzUbXNqn7AkADVDVefgTqy7gAA=" alt="icon"></div><a href="https://soft98.ir/software/pic-tools/3153-%D8%AF%D8%A7%D9%86%D9%84%D9%80%D9%88%D8%AF-%D9%86%D8%B1%D9%85-%D8%A7%D9%81%D9%80%D9%80%D8%B2%D8%A7%D8%B1-%D9%81%D9%80%D8%AA%D9%80%D9%88%D8%B4%D9%80%D8%A7%D9%BE.html#:~:text=%D9%86%D8%B3%D8%AE%D9%87%20%D8%A8%D8%AF%D9%88%D9%86%20%D9%86%DB%8C%D8%A7%D8%B2%20%D8%A8%D9%87%20%D9%86%D8%B5%D8%A8%20(%20Portable%20)" target="_blank" rel="noopener noreferrer">PhotoShop</a></div><div class="desc hidden"></div><div class="meta hidden"><button class="btn" data-action="edit-card" aria-label="ویرایش"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21v-3.6l11-11 3.6 3.6-11 11H3z"></path><path d="M14.5 6.5l3 3"></path></svg></button><button class="btn heart-btn favored" data-action="toggle-fav" aria-pressed="true"><span class="heart" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12.1 21.35l-1.1-.99C5.14 15.36 2 12.28 2 8.5 2 6 3.99 4 6.5 4c1.74 0 3.41.81 4.5 2.09C12.09 4.81 13.76 4 15.5 4 18.01 4 20 6 20 8.5c0 3.78-3.14 6.86-8.9 11.86l-1.0.99"></path></svg></span></button></div></div><div class="link-card" data-id="card-112" data-position="16" data-fav="true"><div class="link-top"><div class="fav" aria-hidden="true"><img src="data:image/webp;base64,UklGRh4EAABXRUJQVlA4WAoAAAAwAAAAPwAAPwAASUNDUMgBAAAAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADZBTFBI4gAAAA2AG9u26uYI7jez3YBTZnYNzA7dg1JDJ+IWlJkzZmiCn+C9PyOW7p3nUEFETAD+Q3+j42FL/6KhmS1rlFvUML0zQGyJ/exagM19iV8qwD+9B0H1mW3uYKOhxfCZQeMu7O1ZDyo4/RZh7FHDQzY5GjXg0wkl0evzfFxJUCvwu/8p4QOOIyIAkM1KeIBsVqK4Ya1Z4uM427cgoWMpNAc6JK4i2YU1ifTRL2q/Z12yyBBgXoYsuu8AVHyxx5qvOAHuZXh9zGEjgk6zmft4CwCos+CjZmsFYkds1EEoaZSGZOqXrTRWUDggRgEAAHAIAJ0BKkAAQAA+eTqXSSSjKiIkGArZQA8JZQZwC7ahkuAKEl3hj9o/Rs0RsErhL0II1WgxkdXj2jB/fzPay41aTvogoT4xUuDfpoAA/uz85Nk2rRcfp/iV8Fo44vcCucrPr/n9FBvSHl/8aR/jSPmLXX7bk/aABlwD0DlUUixZRozKR6xAf1/ZsqH2x9sYdmuNcziIc/d0Gfn/QdfXH/5zI792J93fVdmg4/oS7XlTmSAzXl8I2L73yYfavo4wI5KEu59QC9sOHpcdV2uURCUYjSu82KL0SLlyib0zaHjNIyxmMWH816JrDBipewuOStBuAz6HxwPZgkyUb/qX+t1xsDDiU26edOW8gk5rFQj01zIr6Pz2wNxMd1IJwAqJFHPyFnrKg68MC3tLetuYCwVUFFwtZcavj/dY5s5j0DInGThW3QAA" alt="icon"></div><a href="https://soft98.ir/os/windows-11/886-%D8%AF%D8%A7%D9%86%D9%84%D9%88%D8%AF-%D9%88%DB%8C%D9%86%D8%AF%D9%88%D8%B2-%DB%8C%D8%A7%D8%B2%D8%AF%E2%80%8C%D9%87-40.html" target="_blank" rel="noopener noreferrer">Windows 11</a></div><div class="desc hidden"></div><div class="meta hidden"><button class="btn" data-action="edit-card" aria-label="ویرایش"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21v-3.6l11-11 3.6 3.6-11 11H3z"></path><path d="M14.5 6.5l3 3"></path></svg></button><button class="btn heart-btn favored" data-action="toggle-fav" aria-pressed="true"><span class="heart" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12.1 21.35l-1.1-.99C5.14 15.36 2 12.28 2 8.5 2 6 3.99 4 6.5 4c1.74 0 3.41.81 4.5 2.09C12.09 4.81 13.76 4 15.5 4 18.01 4 20 6 20 8.5c0 3.78-3.14 6.86-8.9 11.86l-1.0.99"></path></svg></span></button></div></div></div>
+        </div>
+      </section><section class="group" data-group="other">
+        <div class="group-header">
+          <div class="group-title">
+            <button class="toggle-btn" data-toggle="other" aria-expanded="false">
+              <span class="toggle-icon collapsed" aria-hidden="true">▾</span>
+              <span>Other</span>
+            </button>
+            <div class="small"></div>
+          </div>
+          <div class="group-actions">
+             <button class="group-action-btn" data-action="edit-group">⚙️</button>
+          </div>
+        </div>
+        <div class="group-body collapsed" id="body-other">
+          <div class="links" id="links-other" aria-live="polite"><div class="link-card" data-id="card-118" data-position="4"><div class="link-top"><div class="fav" aria-hidden="true"><img src="data:image/webp;base64,UklGRloFAABXRUJQVlA4WAoAAAAwAAAAPwAAPwAASUNDUMgBAAAAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADZBTFBIlgEAAAmQrG3bsVW2zVkzjxvatm3btm3btmvWHrQDbma7nvev1n2seUQ4cttGkhKxZ5+a0zyC679fPX30iq/sgHfD7gH9cN0B3qrjI7oVfMvOT8zstP7LveDUIptmU8Q/3HOOdxdcaIo7mqgX592e0c0yKexooZpxZ9qGNe35gm4S34Q3vDGfF+bLtFGN+r6SA+S3YY34wRsKgDcQyKaDqj/4DV0vkxyunhB43WHwOiPYdFG1RzJtwWqLfkfXgq859h39gcZ4muy2Bqp35oCDQ9BE13GT2TO/xkxkPbVteYsR0UhtWN9hhDFWbe8xQpt5yAFL9g8YwS3UvOMjRmAbNe38hBHQQU24PWP4d1IjHi8YvoxBn1cMn25eckCvH4hXD9UV+Ibh0Ue1hbxjuPdTTREgbgN85IC6aBCXQao6HvQ/4zxMlSWBODKK0kEcRvm/v+k9LxvEfozKzgexZaQXg9hMCBDJ5SDWkwLkgGP1ln+5ihzG8hP9AWrh/3Sl2LGYFuSCrjma6YwQlsncJ+xcWxiAd38XvVzo5QJWUDggzgEAALANAJ0BKkAAQAA+eTSUR6SjIiEoDKiQDwlsALkeDX6TrjnXPxy5jvbbv1kvfQV+i9gH8z/oHsA8QDpAeYD9cf8l/gPf/6QD+jdQBz4XsS/uv+0nsfEycIosDcgtvkjj2WLIALpInemS+vyG3JrSkOETE8p3BjAA/un6vc4k/EjfUI7bkeiXrM7gbr8nEa60zGKrg+Vj9c7xWhbm/ikxli4wus+WmYFBmNF48Di6nSjSvvmTgrdh9h7ZO9p1HI029svv/+afj61j/ZWo+xgz/5e///Hj//jKP//GuuYm2eeiVuMNl/0Jel7rr36Z/xBSXkzxO3COaURJ3ByutMX8id1S7we0J4EH9nYRhFSp67NPD7jPpQPDQNwpYt9rKL7/K5engJ94T6w/qSA1W4dI23aW4optvsxGGiEXYG46CyPokR55Oi2Vr3pR0xOuQod/sVjO4JU8Dq4mrDT5Uzs1dIgqnX+KdbMPbUNc4JfXPJDv5tHkaCwq3TDJAf+HgZ2nida+VyZRGV0x/pvTXuiU4m69VrSHVnBeQPrgaut4rkj4WcMBfll+OIa2HIvFDL/qRXuavERHEOG0KKPGrnLWSdjv/+bPdjcLbFh7N4AAAA==" alt="icon"></div><a href="https://www.virustotal.com/gui/home/upload" target="_blank" rel="noopener noreferrer">VirusTotal</a></div><div class="desc hidden"></div><div class="meta hidden"><button class="btn" data-action="edit-card" aria-label="ویرایش"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21v-3.6l11-11 3.6 3.6-11 11H3z"></path><path d="M14.5 6.5l3 3"></path></svg></button><button class="btn heart-btn" data-action="toggle-fav" aria-pressed="false"><span class="heart" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12.1 21.35l-1.1-.99C5.14 15.36 2 12.28 2 8.5 2 6 3.99 4 6.5 4c1.74 0 3.41.81 4.5 2.09C12.09 4.81 13.76 4 15.5 4 18.01 4 20 6 20 8.5c0 3.78-3.14 6.86-8.9 11.86l-1.0.99"></path></svg></span></button></div></div><div class="link-card" data-id="card-113" data-position="17"><div class="link-top"><div class="fav" aria-hidden="true"><img src="data:image/webp;base64,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" alt="icon"></div><a href="https://soft98.ir/" target="_blank" rel="noopener noreferrer">Soft98</a></div><div class="desc hidden"></div><div class="meta hidden"><button class="btn" data-action="edit-card" aria-label="ویرایش"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21v-3.6l11-11 3.6 3.6-11 11H3z"></path><path d="M14.5 6.5l3 3"></path></svg></button><button class="btn heart-btn" data-action="toggle-fav" aria-pressed="false"><span class="heart" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12.1 21.35l-1.1-.99C5.14 15.36 2 12.28 2 8.5 2 6 3.99 4 6.5 4c1.74 0 3.41.81 4.5 2.09C12.09 4.81 13.76 4 15.5 4 18.01 4 20 6 20 8.5c0 3.78-3.14 6.86-8.9 11.86l-1.0.99z"></path></svg></span></button></div></div><div class="link-card" data-id="card-119" data-position="19"><div class="link-top"><div class="fav" aria-hidden="true"><img src="data:image/webp;base64,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" alt="icon"></div><a href="https://soft98.ir/software/13933-everything.html" target="_blank" rel="noopener noreferrer">EveryThing</a></div><div class="desc hidden"></div><div class="meta hidden"><button class="btn" data-action="edit-card" aria-label="ویرایش"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21v-3.6l11-11 3.6 3.6-11 11H3z"></path><path d="M14.5 6.5l3 3"></path></svg></button><button class="btn heart-btn" data-action="toggle-fav" aria-pressed="false"><span class="heart" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12.1 21.35l-1.1-.99C5.14 15.36 2 12.28 2 8.5 2 6 3.99 4 6.5 4c1.74 0 3.41.81 4.5 2.09C12.09 4.81 13.76 4 15.5 4 18.01 4 20 6 20 8.5c0 3.78-3.14 6.86-8.9 11.86l-1.0.99"></path></svg></span></button></div></div></div>
+        </div>
+      </section></div>
+    </div>
+  </div>
+
+  <!-- input مخفی برای انتخاب فایل آیکن؛ -->
+  <input id="iconPicker" type="file" accept="image/*" style="display:none">
+
+  <script>
+  (function(){
+    const addBtn = document.getElementById('addBtn');
+    const addGroupBtn = document.getElementById('addGroupBtn');
+    const sortBtn = document.getElementById('sortBtn');
+    const saveBtn = document.getElementById('saveBtn');
+    const iconPicker = document.getElementById('iconPicker');
+
+    // favorites elements
+    const favoritesGroup = document.getElementById('favoritesGroup');
+    const favoritesLinks = document.getElementById('links-favorites');
+    const favoritesCountEl = document.getElementById('count-favorites');
+
+    // Add/Edit Link modal elements
+    const addLinkModal = document.getElementById('addLinkModal');
+    const addUrl = document.getElementById('addUrl');
+    const addTitle = document.getElementById('addTitle');
+    const addDesc = document.getElementById('addDesc');
+    const addPositionInput = document.getElementById('addPosition');
+    const addGroupSelect = document.getElementById('addGroupSelect');
+    const cancelAddLink = document.getElementById('cancelAddLink');
+    const confirmAddLink = document.getElementById('confirmAddLink');
+    const addIconBtn = document.getElementById('addIconBtn');
+    const addIconPreview = document.getElementById('addIconPreview');
+    const deleteCardBtn = document.getElementById('deleteCardBtn');
+
+    // Edit Group modal elements (existing)
+    const editModal = document.getElementById('editGroupModal');
+    const groupTitleInput = document.getElementById('groupTitleInput');
+    const groupDescInput = document.getElementById('groupDescInput');
+    const confirmEditGroup = document.getElementById('confirmEditGroup');
+    const cancelEditGroup = document.getElementById('cancelEditGroup');
+    const deleteGroupBtn = document.getElementById('deleteGroupBtn');
+
+    let currentEditingGroup = null; // reference to group element being edited
+    let editingCard = null; // when editing a card, this holds the card element
+    let modalSelectedIconDataUrl = null; // temporary icon chosen in modal
+
+    // NEW: flag to indicate we're creating a new group (using the same edit modal)
+    let creatingGroupMode = false;
+
+    function isValidUrl(value) {
+      if (value == null) return false;
+      const s = String(value).trim();
+      return s.length > 0;
+    }
+
+    function escapeHtml(s){ return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]); }
+
+    function normalizeHref(raw) {
+     if (!raw) return raw;
+    const s = String(raw).trim();
+     // اگر با http:// یا https:// یا file:/// شروع شده، بدون تغییر برگردان
+    if (/^(https?:\/\/|file:\/\/\/)/i.test(s)) return s;
+    // در غیر این صورت https:// اضافه کن
+    return 'https://' + s.replace(/^\/+/, '');
+    }
+
+
+    // شناسه‌ساز ساده برای کارت‌ها
+    let idCounter = 100;
+// --- helper: parse numeric part of data-id like "card-123" -> 123
+function parseCardIdNumber(id) {
+  if (!id) return 0;
+  const m = String(id).match(/card-(\d+)$/);
+  return m ? Number(m[1]) : 0;
+}
+
+// --- helper: return max numeric id among existing .link-card elements
+function getMaxExistingIdNumber() {
+  const nodes = Array.from(document.querySelectorAll('.link-card'));
+  if (!nodes.length) return 100; // پایه امن
+  const nums = nodes.map(n => parseCardIdNumber(n.getAttribute('data-id')));
+  return nums.length ? Math.max(...nums) : 100;
+}
+
+// --- generate a new unique id string (scans whole document)
+function generateUniqueCardId() {
+  const max = getMaxExistingIdNumber();
+  return 'card-' + (max + 1);
+}
+
+
+
+
+    // helper to create edit icon HTML
+    function editIconHtml() {
+      return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21v-3.6l11-11 3.6 3.6-11 11H3z"></path><path d="M14.5 6.5l3 3"></path></svg>';
+    }
+
+    // -------------------------
+    // Position helpers (new)
+    // -------------------------
+    function maxPositionInContainer(linksEl) {
+      if (!linksEl) return 0;
+      const vals = Array.from(linksEl.children).map(c => {
+        const p = Number(c.getAttribute('data-position'));
+        return Number.isFinite(p) ? p : 0;
+      });
+      return vals.length ? Math.max(...vals) : 0;
+    }
+
+    function resolvePositionForInput(inputEl, targetList) {
+      const raw = inputEl ? String(inputEl.value).trim() : '';
+      if (raw === '') {
+        const max = maxPositionInContainer(targetList);
+        return max + 1;
+      }
+      const n = Number(raw);
+      if (!Number.isFinite(n) || Number.isNaN(n)) {
+        const max = maxPositionInContainer(targetList);
+        return max + 1;
+      }
+      return Math.max(1, Math.floor(n));
+    }
+
+    function sortLinksByPosition(linksEl) {
+      if (!linksEl) return;
+      const items = Array.from(linksEl.children);
+      items.sort((a, b) => {
+        const pa = Number(a.getAttribute('data-position'));
+        const pb = Number(b.getAttribute('data-position'));
+        const na = Number.isFinite(pa) ? pa : Number.POSITIVE_INFINITY;
+        const nb = Number.isFinite(pb) ? pb : Number.POSITIVE_INFINITY;
+        if (na !== nb) return na - nb;
+        const ta = (a.querySelector('a')?.textContent || '').trim().toLowerCase();
+        const tb = (b.querySelector('a')?.textContent || '').trim().toLowerCase();
+        return ta.localeCompare(tb);
+      });
+      items.forEach(it => linksEl.appendChild(it));
+    }
+
+    function sortAllGroupsByPosition() {
+      document.querySelectorAll('.group').forEach(section => {
+        const linksEl = section.querySelector('.links');
+        if (linksEl) sortLinksByPosition(linksEl);
+      });
+    }
+
+    function normalizePositions(linksEl) {
+      if (!linksEl) return;
+      const items = Array.from(linksEl.children);
+      items.forEach((c, i) => {
+        c.setAttribute('data-position', String(i + 1));
+        c.dataset.position = String(i + 1);
+      });
+    }
+
+    // -------------------------
+    // createLinkCard
+    // -------------------------
+    function createLinkCard(href, title, desc, groupKey) {
+      const id = generateUniqueCardId();
+      const card = document.createElement('div');
+      card.className = 'link-card';
+      card.setAttribute('data-id', id);
+      // data-position will be set by confirmAddLink when creating; if not set later, init will assign
+
+      const top = document.createElement('div'); top.className = 'link-top';
+      const fav = document.createElement('div'); fav.className='fav'; fav.setAttribute('aria-hidden','true');
+      fav.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.1L21 9.3l-5 4.3L17 21l-5-3.1L7 21l1-7.4-5-4.3 6.1-1.2z"/></svg>';
+
+      const a = document.createElement('a'); a.href = normalizeHref(href); a.target='_blank'; a.rel='noopener noreferrer';
+      a.innerHTML = escapeHtml(title);
+
+      top.appendChild(fav); top.appendChild(a);
+
+      const descEl = document.createElement('div'); descEl.className='desc'; descEl.textContent = desc || '';
+
+      const meta = document.createElement('div'); meta.className='meta';
+
+      const editBtn = document.createElement('button');
+      editBtn.className = 'btn';
+      editBtn.setAttribute('data-action','edit-card');
+      editBtn.setAttribute('aria-label','ویرایش');
+      editBtn.innerHTML = editIconHtml();
+
+      const heartBtn = document.createElement('button');
+      heartBtn.className = 'btn heart-btn';
+      heartBtn.setAttribute('data-action','toggle-fav');
+      heartBtn.setAttribute('aria-pressed','false');
+      heartBtn.innerHTML = '<span class="heart" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12.1 21.35l-1.1-.99C5.14 15.36 2 12.28 2 8.5 2 6 3.99 4 6.5 4c1.74 0 3.41.81 4.5 2.09C12.09 4.81 13.76 4 15.5 4 18.01 4 20 6 20 8.5c0 3.78-3.14 6.86-8.9 11.86l-1.0.99"/></svg></span>';
+
+      meta.appendChild(editBtn);
+      meta.appendChild(heartBtn);
+
+      card.appendChild(top);
+      card.appendChild(descEl);
+      card.appendChild(meta);
+
+      // events
+      editBtn.addEventListener('click', ()=> {
+        openAddLinkModalForEdit(card);
+      });
+
+      heartBtn.addEventListener('click', ()=> {
+        const isFav = heartBtn.getAttribute('aria-pressed') === 'true';
+        if (isFav) {
+          heartBtn.setAttribute('aria-pressed','false');
+          heartBtn.classList.remove('favored');
+          card.removeAttribute('data-fav');
+          removeFavoriteById(id);
+        } else {
+          heartBtn.setAttribute('aria-pressed','true');
+          heartBtn.classList.add('favored');
+          card.setAttribute('data-fav','true');
+          addFavoriteFromOriginal(card);
+        }
+      });
+
+      return card;
+    }
+
+    /**
+     * resizeImageFile unchanged
+     */
+    function resizeImageFile(file, size = 64, baseQuality = 0.78) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onerror = () => { reader.abort(); reject(new Error('خطا در خواندن فایل')); };
+        reader.onload = () => {
+          const img = new Image();
+          img.onload = () => {
+            try {
+              const canvas = document.createElement('canvas');
+              canvas.width = size;
+              canvas.height = size;
+              const ctx = canvas.getContext('2d');
+
+              const iw = img.naturalWidth;
+              const ih = img.naturalHeight;
+              const srcRatio = iw / ih;
+              const dstRatio = 1;
+
+              let sx = 0, sy = 0, sw = iw, sh = ih;
+              if (srcRatio > dstRatio) {
+                sw = ih * dstRatio;
+                sx = (iw - sw) / 2;
+              } else if (srcRatio < dstRatio) {
+                sh = iw / dstRatio;
+                sy = (ih - sh) / 2;
+              }
+
+              ctx.clearRect(0,0,size,size);
+              ctx.imageSmoothingEnabled = true;
+              ctx.imageSmoothingQuality = 'high';
+              ctx.drawImage(img, sx, sy, sw, sh, 0, 0, size, size);
+
+              const quality = baseQuality;
+
+              let dataUrl;
+              try {
+                dataUrl = canvas.toDataURL('image/webp', quality);
+                if (!dataUrl.startsWith('data:image/webp')) {
+                  dataUrl = canvas.toDataURL('image/jpeg', quality);
+                }
+              } catch (e) {
+                dataUrl = canvas.toDataURL('image/jpeg', quality);
+              }
+              resolve(dataUrl);
+            } catch (err) {
+              reject(err);
+            }
+          };
+          img.onerror = () => reject(new Error('خطا در بارگذاری تصویر'));
+          img.src = reader.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // iconPicker handler: supports modal icon selection (target 'modal-new-icon') and updating existing cards
+    if (iconPicker) {
+      iconPicker.addEventListener('change', async (e)=>{
+        const file = e.target.files && e.target.files[0];
+        const targetId = e.target.dataset.target;
+        if (!file || !targetId) { iconPicker.value = ''; return; }
+
+        try {
+          const dataUrl = await resizeImageFile(file, 64, 0.78);
+
+          // If target indicates modal selection, store and preview it
+          if (targetId === 'modal-new-icon') {
+            modalSelectedIconDataUrl = dataUrl;
+            if (addIconPreview) {
+              addIconPreview.innerHTML = '';
+              const img = document.createElement('img');
+              img.src = dataUrl;
+              img.alt = 'icon';
+              addIconPreview.appendChild(img);
+            }
+            iconPicker.value = '';
+            delete iconPicker.dataset.target;
+            return;
+          }
+
+          // Otherwise, update card(s) with that id
+          const cards = document.querySelectorAll('.link-card[data-id="'+targetId+'"]');
+          cards.forEach(card=>{
+            const fav = card.querySelector('.fav');
+            if (fav) {
+              fav.innerHTML = '';
+              const img = document.createElement('img');
+              img.src = dataUrl;
+              img.alt = 'icon';
+              fav.appendChild(img);
+            }
+          });
+
+        } catch (err) {
+          console.error('خطا در پردازش تصویر:', err);
+          alert('خطا در پردازش تصویر. لطفاً یک فایل تصویر معتبر انتخاب کنید.');
+        } finally {
+          iconPicker.value = '';
+          delete iconPicker.dataset.target;
+        }
+      });
+    }
+
+    // Favorites logic (kept intact, clones no longer include delete button)
+    function updateFavoritesVisibility() {
+      const count = favoritesLinks ? favoritesLinks.children.length : 0;
+      if (favoritesGroup) {
+        if (count > 0) {
+          favoritesGroup.classList.add('visible');
+          favoritesGroup.setAttribute('aria-hidden','false');
+        } else {
+          favoritesGroup.classList.remove('visible');
+          favoritesGroup.setAttribute('aria-hidden','true');
+        }
+      }
+      if (favoritesCountEl) favoritesCountEl.textContent = count;
+    }
+
+    function buildFavoriteCloneFromOriginal(originalCard) {
+      const id = originalCard.getAttribute('data-id');
+      const clone = document.createElement('div');
+      clone.className = 'link-card';
+      clone.setAttribute('data-id', id);
+      clone.setAttribute('data-fav-clone', 'true');
+
+      const top = document.createElement('div'); top.className = 'link-top';
+      const fav = document.createElement('div'); fav.className='fav'; fav.setAttribute('aria-hidden','true');
+      const origFav = originalCard.querySelector('.fav');
+      if (origFav) {
+        const img = origFav.querySelector('img');
+        if (img) {
+          const imgClone = document.createElement('img');
+          imgClone.src = img.src;
+          imgClone.alt = 'icon';
+          fav.appendChild(imgClone);
+        } else {
+          fav.innerHTML = origFav.innerHTML;
+        }
+      } else {
+        fav.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.1L21 9.3l-5 4.3L17 21l-5-3.1L7 21l1-7.4-5-4.3 6.1-1.2z"/></svg>';
+      }
+
+      const origLink = originalCard.querySelector('a');
+      const a = document.createElement('a');
+      if (origLink) {
+        const rawHref = origLink ? (origLink.getAttribute('href') || '') : '';
+        a.href = normalizeHref(rawHref);
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.innerHTML = origLink.innerHTML;
+      } else {
+        a.textContent = 'بدون عنوان';
+      }
+      top.appendChild(fav); top.appendChild(a);
+
+      const descEl = document.createElement('div'); descEl.className='desc';
+      const origDesc = originalCard.querySelector('.desc');
+      descEl.textContent = origDesc ? origDesc.textContent : '';
+
+      const meta = document.createElement('div'); meta.className='meta';
+
+      const heartBtn = document.createElement('button');
+      heartBtn.className = 'btn heart-btn favored';
+      heartBtn.setAttribute('data-action','toggle-fav');
+      heartBtn.setAttribute('aria-pressed','true');
+      heartBtn.innerHTML = '<span class="heart" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12.1 21.35l-1.1-.99C5.14 15.36 2 12.28 2 8.5 2 6 3.99 4 6.5 4c1.74 0 3.41.81 4.5 2.09C12.09 4.81 13.76 4 15.5 4 18.01 4 20 6 20 8.5c0 3.78-3.14 6.86-8.9 11.86l-1.0.99z"/></svg></span>';
+
+      meta.appendChild(heartBtn);
+
+      clone.appendChild(top);
+      clone.appendChild(descEl);
+      clone.appendChild(meta);
+
+      heartBtn.addEventListener('click', ()=> {
+        const isFav = heartBtn.getAttribute('aria-pressed') === 'true';
+        if (isFav) {
+          heartBtn.setAttribute('aria-pressed','false');
+          heartBtn.classList.remove('favored');
+          removeFavoriteById(id);
+          const origHeart = document.querySelector('.link-card[data-id="'+id+'"] [data-action="toggle-fav"]');
+          if (origHeart) {
+            origHeart.setAttribute('aria-pressed','false');
+            origHeart.classList.remove('favored');
+            const origCard = document.querySelector('.link-card[data-id="'+id+'"]:not([data-fav-clone])');
+            if (origCard) origCard.removeAttribute('data-fav');
+          }
+        } else {
+          heartBtn.setAttribute('aria-pressed','true');
+          heartBtn.classList.add('favored');
+          addFavoriteFromOriginal(document.querySelector('.link-card[data-id="'+id+'"]:not([data-fav-clone])'));
+        }
+      });
+
+      return clone;
+    }
+
+    function addFavoriteFromOriginal(originalCard) {
+      if (!originalCard) return;
+      const id = originalCard.getAttribute('data-id');
+      if (!id) return;
+      if (!favoritesLinks) return;
+      if (favoritesLinks.querySelector('.link-card[data-id="'+id+'"]')) return;
+
+        // ensure original is marked as favored
+  originalCard.setAttribute('data-fav', 'true');
+  const origHeart = originalCard.querySelector('[data-action="toggle-fav"]');
+  if (origHeart) {
+    origHeart.setAttribute('aria-pressed', 'true');
+    origHeart.classList.add('favored');
+  }
+
+      const clone = buildFavoriteCloneFromOriginal(originalCard);
+      favoritesLinks.insertBefore(clone, favoritesLinks.firstChild);
+      updateFavoritesVisibility();
+    }
+
+function removeFavoriteById(id) {
+  if (!favoritesLinks) return;
+  // remove any favorite clone(s) in favorites list
+  const existing = favoritesLinks.querySelectorAll('.link-card[data-id="'+id+'"]');
+  existing.forEach(el => el.remove());
+
+  // Also sync the original card (if present) to clear its favored state
+  const origHeart = document.querySelector('.link-card[data-id="'+id+'"]:not([data-fav-clone]) [data-action="toggle-fav"]');
+  if (origHeart) {
+    origHeart.setAttribute('aria-pressed', 'false');
+    origHeart.classList.remove('favored');
+    const origCard = origHeart.closest('.link-card');
+    if (origCard) {
+      origCard.removeAttribute('data-fav');
+    }
+  }
+  updateFavoritesVisibility();
+}
+
+    // updateCounts: support dynamic groups
+    function updateCounts() {
+      // update counts for all groups that have links-<key>
+      document.querySelectorAll('.group').forEach(g=>{
+        const key = g.getAttribute('data-group');
+        if (!key || key === 'favorites') return;
+        const cntEl = document.getElementById('count-' + key);
+        const linksContainer = document.getElementById('links-' + key);
+        if (cntEl && linksContainer) {
+          cntEl.textContent = linksContainer.children.length;
+        }
+      });
+      if (favoritesCountEl && favoritesLinks) favoritesCountEl.textContent = favoritesLinks.children.length;
+    }
+
+    // populateGroupSelect: rebuild select from DOM groups
+    function populateGroupSelect() {
+      if (!addGroupSelect) return;
+      addGroupSelect.innerHTML = '';
+      const groups = Array.from(document.querySelectorAll('.group'));
+      groups.forEach(g => {
+        const key = g.getAttribute('data-group') || '';
+        if (!key) return;
+        if (key === 'favorites') return; // exclude favorites
+        let display = '';
+        const toggleBtn = g.querySelector('.toggle-btn');
+        if (toggleBtn) {
+          const spans = toggleBtn.querySelectorAll('span');
+          if (spans.length >= 2) display = spans[1].textContent.trim();
+          else {
+            const alt = g.querySelector('.group-title > span:not(.small)');
+            display = alt ? alt.textContent.trim() : key;
+          }
+        } else {
+          const bold = g.querySelector('.group-title > div');
+          display = bold ? bold.textContent.trim() : key;
+        }
+        const opt = document.createElement('option');
+        opt.value = key;
+        opt.textContent = display || key;
+        addGroupSelect.appendChild(opt);
+      });
+    }
+
+    // openEditGroupModal: used for both editing and creating (creatingGroupMode flag controls behavior)
+    function openEditGroupModal(groupEl) {
+      currentEditingGroup = groupEl;
+      let titleText = '';
+      const toggleBtn = groupEl ? groupEl.querySelector('.toggle-btn') : null;
+      if (toggleBtn) {
+        const span = toggleBtn.querySelector('span:last-child');
+        titleText = span ? span.textContent.trim() : '';
+      } else if (groupEl) {
+        const titleSpan = groupEl.querySelector('.group-title span:last-child');
+        titleText = titleSpan ? titleSpan.textContent.trim() : '';
+      }
+      if (groupTitleInput) groupTitleInput.value = titleText || '';
+      if (groupDescInput) groupDescInput.value = '';
+      if (editModal) {
+        editModal.classList.add('visible');
+        editModal.setAttribute('aria-hidden', 'false');
+      }
+      if (deleteGroupBtn) deleteGroupBtn.style.display = 'inline-block';
+    }
+
+    // Open Add/Edit Link modal for editing an existing card
+    function openAddLinkModalForEdit(card) {
+      editingCard = card;
+      const link = card.querySelector('a');
+      const desc = card.querySelector('.desc');
+      if (addUrl) addUrl.value = link ? link.href : '';
+      if (addTitle) addTitle.value = link ? link.textContent.trim() : '';
+      if (addDesc) addDesc.value = desc ? desc.textContent.trim() : '';
+      if (addGroupSelect) {
+        // rebuild select and try to infer group by searching parent
+        populateGroupSelect();
+        const parentLinks = card.closest('.links');
+        if (parentLinks && parentLinks.id) {
+          const gid = parentLinks.id.replace(/^links-/, '');
+          try { addGroupSelect.value = gid; } catch(e) { if (addGroupSelect.options.length) addGroupSelect.selectedIndex = 0; }
+        } else {
+          if (addGroupSelect.options.length) addGroupSelect.selectedIndex = 0;
+        }
+      }
+      // set position input to current card position
+      if (addPositionInput) {
+        const pos = card.getAttribute('data-position');
+        addPositionInput.value = pos ? pos : '';
+      }
+      if (addIconPreview) {
+        const fav = card.querySelector('.fav img');
+        addIconPreview.innerHTML = '';
+        if (fav) {
+          const img = document.createElement('img');
+          img.src = fav.src;
+          img.alt = 'icon';
+          addIconPreview.appendChild(img);
+        }
+      }
+      if (addLinkModal) {
+        addLinkModal.classList.add('visible');
+        addLinkModal.setAttribute('aria-hidden', 'false');
+      }
+      if (deleteCardBtn) deleteCardBtn.style.display = 'inline-block';
+    }
+
+    // Modal cancel handlers
+    if (cancelAddLink) {
+      cancelAddLink.addEventListener('click', () => {
+        if (addLinkModal) {
+          addLinkModal.classList.remove('visible');
+          addLinkModal.setAttribute('aria-hidden', 'true');
+        }
+        editingCard = null;
+        modalSelectedIconDataUrl = null;
+        if (addIconPreview) addIconPreview.innerHTML = '';
+        if (deleteCardBtn) deleteCardBtn.style.display = 'none';
+      });
+    }
+
+    if (cancelEditGroup) {
+      cancelEditGroup.addEventListener('click', () => {
+        if (editModal) {
+          editModal.classList.remove('visible');
+          editModal.setAttribute('aria-hidden', 'true');
+        }
+        currentEditingGroup = null;
+        creatingGroupMode = false;
+        if (deleteGroupBtn) deleteGroupBtn.style.display = 'none';
+      });
+    }
+
+    // delete card from modal (only when editing)
+    if (deleteCardBtn) {
+      deleteCardBtn.addEventListener('click', () => {
+        if (!editingCard) return;
+        const gid = editingCard.getAttribute('data-id');
+        // remove any favorite clones
+        const favClone = document.querySelector('.link-card[data-id="' + gid + '"][data-fav-clone]');
+        if (favClone) favClone.remove();
+        const parentLinks = editingCard.closest('.links');
+        editingCard.remove();
+        editingCard = null;
+        if (addLinkModal) {
+          addLinkModal.classList.remove('visible');
+          addLinkModal.setAttribute('aria-hidden', 'true');
+        }
+        if (addIconPreview) addIconPreview.innerHTML = '';
+        if (deleteCardBtn) deleteCardBtn.style.display = 'none';
+        // update UI
+        if (parentLinks) {
+          sortLinksByPosition(parentLinks);
+        }
+        updateFavoritesVisibility();
+        updateCounts();
+      });
+    }
+
+    // addIconBtn: open file picker for modal icon selection
+    if (addIconBtn) {
+      addIconBtn.addEventListener('click', () => {
+        iconPicker.dataset.target = 'modal-new-icon';
+        iconPicker.click();
+      });
+    }
+
+    // confirmAddLink: create or update card
+    if (confirmAddLink) {
+      confirmAddLink.addEventListener('click', () => {
+        const rawUrl = addUrl.value && addUrl.value.trim();
+        const url = normalizeHref(rawUrl);
+        if (!url) {
+          alert('آدرس وارد شده معتبر نیست.');
+          return;
+        }
+        const title = addTitle.value && addTitle.value.trim();
+        const desc = addDesc.value && addDesc.value.trim();
+        const groupKey = addGroupSelect ? addGroupSelect.value : (document.querySelector('.group') ? document.querySelector('.group').getAttribute('data-group') : 'main');
+        if (!url || !isValidUrl(url) || !title) {
+          alert('لطفاً یک آدرس معتبر و عنوان وارد کنید.');
+          return;
+        }
+
+        const targetList = document.getElementById('links-' + (groupKey || 'main'));
+
+        // resolve position: if input empty -> max+1 in that group
+        const position = resolvePositionForInput(addPositionInput, targetList);
+
+        if (editingCard) {
+          // update existing card
+          const a = editingCard.querySelector('a');
+          const d = editingCard.querySelector('.desc');
+          if (a) { a.href = url; a.textContent = title; }
+          if (d) d.textContent = desc || '';
+          // set position on editingCard
+          editingCard.setAttribute('data-position', String(position));
+          editingCard.dataset.position = String(position);
+
+          // move to selected group if changed
+          const currentList = editingCard.closest('.links');
+          if (targetList && currentList && targetList !== currentList) {
+            targetList.insertBefore(editingCard, targetList.firstChild);
+          }
+
+          // update icon if selected
+          if (modalSelectedIconDataUrl) {
+            const fav = editingCard.querySelector('.fav');
+            if (fav) {
+              fav.innerHTML = '';
+              const img = document.createElement('img');
+              img.src = modalSelectedIconDataUrl;
+              img.alt = 'icon';
+              fav.appendChild(img);
+            }
+            modalSelectedIconDataUrl = null;
+            if (addIconPreview) addIconPreview.innerHTML = '';
+          }
+
+          // sync favorite clone if exists
+          const cardId = editingCard.getAttribute('data-id');
+          const favClone = document.querySelector('.link-card[data-id="'+cardId+'"][data-fav-clone="true"]');
+          if (favClone) {
+            const origA = editingCard.querySelector('a');
+            const cloneA = favClone.querySelector('a');
+            if (origA && cloneA) {
+              cloneA.href = origA.href;
+              cloneA.innerHTML = origA.innerHTML;
+            }
+            const origDesc = editingCard.querySelector('.desc');
+            const cloneDesc = favClone.querySelector('.desc');
+            if (origDesc && cloneDesc) cloneDesc.textContent = origDesc.textContent;
+            const origFavImg = editingCard.querySelector('.fav img');
+            const cloneFav = favClone.querySelector('.fav');
+            if (cloneFav) {
+              cloneFav.innerHTML = '';
+              if (origFavImg) {
+                const img = document.createElement('img');
+                img.src = origFavImg.src;
+                img.alt = 'icon';
+                cloneFav.appendChild(img);
+              } else {
+                const origFav = editingCard.querySelector('.fav');
+                if (origFav) cloneFav.innerHTML = origFav.innerHTML;
+              }
+            }
+          }
+
+          // sort only the affected group
+          const sortTarget = targetList || editingCard.closest('.links');
+          if (sortTarget) sortLinksByPosition(sortTarget);
+
+        } else {
+          // create new card
+          const card = createLinkCard(url, title, desc, groupKey);
+          // set position
+          card.setAttribute('data-position', String(position));
+          card.dataset.position = String(position);
+
+          const targetList = document.getElementById('links-' + (groupKey || 'main'));
+          if (targetList) {
+            targetList.insertBefore(card, targetList.firstChild);
+            // apply modal icon if any
+            if (modalSelectedIconDataUrl) {
+              const fav = card.querySelector('.fav');
+              if (fav) {
+                fav.innerHTML = '';
+                const img = document.createElement('img');
+                img.src = modalSelectedIconDataUrl;
+                img.alt = 'icon';
+                fav.appendChild(img);
+              }
+              modalSelectedIconDataUrl = null;
+              if (addIconPreview) addIconPreview.innerHTML = '';
+            }
+            // sort the target group so the new card moves to correct position
+            sortLinksByPosition(targetList);
+          }
+        }
+
+        // close modal
+        if (addLinkModal) {
+          addLinkModal.classList.remove('visible');
+          addLinkModal.setAttribute('aria-hidden', 'true');
+        }
+        editingCard = null;
+        if (deleteCardBtn) deleteCardBtn.style.display = 'none';
+        // update counts after changes
+        updateCounts();
+      });
+    }
+
+    // Helper: create a new group section and wire up its controls
+    function createGroup(title, desc) {
+      // generate a safe key
+      const base = title ? title.trim().toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9\-]/g,'') : 'group';
+      let key = base || 'group';
+      let idx = 1;
+      while (document.querySelector('[data-group="'+key+'"]')) {
+        key = base + '-' + (idx++);
+      }
+
+      const section = document.createElement('section');
+      section.className = 'group';
+      section.setAttribute('data-group', key);
+      // build inner HTML (kept simple and consistent with existing structure)
+      section.innerHTML = `
+        <div class="group-header">
+          <div class="group-title">
+            <button class="toggle-btn" data-toggle="${key}" aria-expanded="true">
+              <span class="toggle-icon" aria-hidden="true">▾</span>
+              <span>${escapeHtml(title || key)}</span>
+            </button>
+            <div class="small" style="font-size:13px">${escapeHtml(desc || '')}</div>
+          </div>
+          <div class="group-actions">
+             <button class="group-action-btn" data-action="edit-group">⚙️</button>
+          </div>
+        </div>
+        <div class="group-body" id="body-${key}">
+          <div class="links" id="links-${key}" aria-live="polite"></div>
+        </div>
+      `;
+      const mainGroups = document.getElementById('mainGroups');
+      if (mainGroups) mainGroups.appendChild(section);
+
+      // add option to addGroupSelect
+      if (addGroupSelect) {
+        const opt = document.createElement('option');
+        opt.value = key;
+        opt.textContent = title || key;
+        addGroupSelect.appendChild(opt);
+      }
+
+      // wire up toggle button and edit-group button
+      const toggleBtn = section.querySelector('.toggle-btn');
+      if (toggleBtn) {
+        toggleBtn.addEventListener('click', () => {
+          const keyLocal = toggleBtn.getAttribute('data-toggle');
+          const body = document.getElementById('body-' + keyLocal);
+          const icon = toggleBtn.querySelector('.toggle-icon');
+          if (!body) return;
+          const collapsed = body.classList.toggle('collapsed');
+          if (icon) {
+            if (collapsed) icon.classList.add('collapsed');
+            else icon.classList.remove('collapsed');
+          }
+          toggleBtn.setAttribute('aria-expanded', String(!collapsed));
+        });
+      }
+
+      const editBtn = section.querySelector('.group-action-btn[data-action="edit-group"]');
+      if (editBtn) {
+        editBtn.addEventListener('click', (e) => {
+          const groupEl = e.target.closest('.group');
+          if (!groupEl) return;
+          creatingGroupMode = false;
+          openEditGroupModal(groupEl);
+        });
+      }
+
+      // ensure selects and counts updated
+      populateGroupSelect();
+      updateCounts();
+
+      // return created section element
+      return section;
+    }
+
+    // addGroupBtn: open edit modal in "create group" mode
+    if (addGroupBtn) {
+      addGroupBtn.addEventListener('click', () => {
+        creatingGroupMode = true;
+        currentEditingGroup = null;
+        if (groupTitleInput) groupTitleInput.value = '';
+        if (groupDescInput) groupDescInput.value = '';
+        if (editModal) {
+          editModal.classList.add('visible');
+          editModal.setAttribute('aria-hidden', 'false');
+        }
+        if (deleteGroupBtn) deleteGroupBtn.style.display = 'none';
+      });
+    }
+
+    if (deleteGroupBtn) {
+      deleteGroupBtn.addEventListener('click', () => {
+        if (!currentEditingGroup) return;
+        // تأیید کاربر (می‌توانید confirm را با یک مودال سفارشی جایگزین کنید)
+        if (!confirm('آیا مطمئن هستید که می‌خواهید این گروه و تمام کارت‌های داخل آن حذف شود؟')) return;
+
+        const groupKey = currentEditingGroup.getAttribute('data-group');
+        // حذف کارت‌ها و clone های مربوط به favorites
+        const linksEl = currentEditingGroup.querySelector('.links');
+        if (linksEl) {
+          const cardIds = Array.from(linksEl.querySelectorAll('.link-card')).map(c => c.getAttribute('data-id')).filter(Boolean);
+          cardIds.forEach(id => {
+            // حذف clone های favorites با همان data-id
+            const favClone = document.querySelector('#links-favorites .link-card[data-id="' + id + '"]');
+            if (favClone) favClone.remove();
+          });
+        }
+
+        // حذف خودِ بخش گروه
+        currentEditingGroup.remove();
+
+        // حذف گزینه از select مربوط به انتخاب گروه در مودال لینک
+        if (addGroupSelect) {
+          const opt = addGroupSelect.querySelector('option[value="' + groupKey + '"]');
+          if (opt) opt.remove();
+        }
+
+        // بستن مودال و ریست وضعیت
+        if (editModal) {
+          editModal.classList.remove('visible');
+          editModal.setAttribute('aria-hidden', 'true');
+        }
+        currentEditingGroup = null;
+        creatingGroupMode = false;
+        if (deleteGroupBtn) deleteGroupBtn.style.display = 'none';
+
+        // به‌روزرسانی نمایش favorites و شمارش‌ها
+        updateFavoritesVisibility();
+        updateCounts();
+      });
+    }
+
+    // confirmEditGroup: update group title/description or create new group if in creatingGroupMode
+    if (confirmEditGroup) {
+      confirmEditGroup.addEventListener('click', () => {
+        const title = groupTitleInput.value && groupTitleInput.value.trim();
+        const desc = groupDescInput.value && groupDescInput.value.trim();
+
+        if (creatingGroupMode) {
+          // create new group
+          if (!title) {
+            alert('لطفاً عنوان گروه را وارد کنید.');
+            return;
+          }
+          const newGroup = createGroup(title, desc);
+          // close modal and reset flags
+          if (editModal) {
+            editModal.classList.remove('visible');
+            editModal.setAttribute('aria-hidden', 'true');
+          }
+          creatingGroupMode = false;
+          currentEditingGroup = null;
+          if (deleteGroupBtn) deleteGroupBtn.style.display = 'none';
+          // ensure selects and counts updated
+          populateGroupSelect();
+          updateCounts();
+        } else {
+          // editing existing group
+          if (!currentEditingGroup) {
+            if (editModal) {
+              editModal.classList.remove('visible');
+              editModal.setAttribute('aria-hidden', 'true');
+            }
+            return;
+          }
+          const titleEl = currentEditingGroup.querySelector('.group-title span:last-child');
+          const smallEl = currentEditingGroup.querySelector('.group-title .small');
+          if (title && titleEl) titleEl.textContent = title;
+          if (smallEl) smallEl.textContent = desc || '';
+          // close modal
+          if (editModal) {
+            editModal.classList.remove('visible');
+            editModal.setAttribute('aria-hidden', 'true');
+          }
+          currentEditingGroup = null;
+          // update select and counts
+          populateGroupSelect();
+          updateCounts();
+        }
+      });
+    }
+
+    // toggle collapse/expand for existing groups (initial wiring)
+    document.querySelectorAll('.toggle-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const key = btn.getAttribute('data-toggle');
+        const body = document.getElementById('body-' + key);
+        const icon = btn.querySelector('.toggle-icon');
+        if (!body) return;
+        const collapsed = body.classList.toggle('collapsed');
+        if (icon) {
+          if (collapsed) icon.classList.add('collapsed');
+          else icon.classList.remove('collapsed');
+        }
+        btn.setAttribute('aria-expanded', String(!collapsed));
+      });
+    });
+
+    // attach edit-group buttons to open edit modal
+    document.querySelectorAll('.group-action-btn[data-action="edit-group"]').forEach(gbtn => {
+      gbtn.addEventListener('click', (e) => {
+        const groupEl = e.target.closest('.group');
+        if (!groupEl) return;
+        creatingGroupMode = false;
+        openEditGroupModal(groupEl);
+      });
+    });
+
+    // addBtn: open add-link modal
+    if (addBtn) {
+      addBtn.addEventListener('click', () => {
+        if (addLinkModal) {
+          // reset modal fields
+          populateGroupSelect();
+          if (addUrl) addUrl.value = '';
+          if (addTitle) addTitle.value = '';
+          if (addDesc) addDesc.value = '';
+          if (addGroupSelect) {
+            if (addGroupSelect.options.length) addGroupSelect.selectedIndex = 0;
+          }
+          // set default position to end of selected group
+          if (addPositionInput) {
+            const selGroup = addGroupSelect ? addGroupSelect.value : null;
+            const targetList = selGroup ? document.getElementById('links-' + selGroup) : null;
+            const defaultPos = targetList ? (maxPositionInContainer(targetList) + 1) : 1;
+            addPositionInput.value = ''; // leave empty so logic treats it as "put at end"
+            // (we intentionally leave input empty so user can see it's optional)
+          }
+          if (addIconPreview) addIconPreview.innerHTML = '';
+          modalSelectedIconDataUrl = null;
+          editingCard = null;
+          addLinkModal.classList.add('visible');
+          addLinkModal.setAttribute('aria-hidden', 'false');
+          if (deleteCardBtn) deleteCardBtn.style.display = 'none';
+        }
+      });
+    }
+
+    // sortBtn: simple alphabetical sort per group (non-destructive)
+    if (sortBtn) {
+      sortBtn.addEventListener('click', () => {
+        // gather all group keys dynamically
+        const groupSections = document.querySelectorAll('.group');
+        groupSections.forEach(section => {
+          const linksEl = section.querySelector('.links');
+          if (!linksEl) return;
+          const items = Array.from(linksEl.children);
+          items.sort((a, b) => {
+            const ta = (a.querySelector('a') ? a.querySelector('a').textContent.trim().toLowerCase() : '');
+            const tb = (b.querySelector('a') ? b.querySelector('a').textContent.trim().toLowerCase() : '');
+            return ta.localeCompare(tb);
+          });
+          items.forEach(it => linksEl.appendChild(it));
+        });
+      });
+    }
+
+    // saveBtn: robust download handler (replaces any previous listeners)
+    (function(){
+      const saveBtnEl = document.getElementById('saveBtn');
+      if (!saveBtnEl) {
+        console.error('saveBtn not found in DOM');
+        return;
+      }
+
+      // کلون کردن دکمه تا شنونده‌های قبلی حذف شوند
+      const newSaveBtn = saveBtnEl.cloneNode(true);
+      saveBtnEl.parentNode.replaceChild(newSaveBtn, saveBtnEl);
+
+      newSaveBtn.addEventListener('click', function(){
+        try {
+          const proceed = confirm('آیا میخواهید فایل را با تغییرات جــدیـد ذخیره کنید؟');
+          if (!proceed) return;
+
+          // اگر توابع کمکی موجود باشند از آن‌ها استفاده کن، در غیر این صورت fallback بساز
+          const suggested = (typeof getSuggestedFilename === 'function') ? getSuggestedFilename() : (window.location.pathname.split('/').pop() || 'links.htm');
+          const content = (typeof serializeDocumentHtml === 'function') ? serializeDocumentHtml() : (function(){
+            try {
+              const doctype = '<!doctype html>\n';
+              return doctype + document.documentElement.outerHTML;
+            } catch (e) {
+              console.error('fallback serialize failed', e);
+              return document.documentElement.outerHTML || '<!doctype html><html></html>';
+            }
+          })();
+
+          const blob = new Blob([content], { type: 'text/html;charset=utf-8' });
+          const url = URL.createObjectURL(blob);
+
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = suggested || 'links.htm';
+          // اضافه کردن به DOM قبل از کلیک (برخی مرورگرها به این نیاز دارند)
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+
+          // آزادسازی URL بعد از مدتی کوتاه
+          setTimeout(() => {
+            try { URL.revokeObjectURL(url); } catch(e){ /* ignore */ }
+          }, 1500);
+
+        } catch (err) {
+          console.error('خطا در فرآیند دانلود:', err);
+          alert('خطایی هنگام آماده‌سازی فایل برای دانلود رخ داد. کنسول را بررسی کنید.');
+        }
+      }, false);
+    })();
+
+    // normalizeExistingEditButtons and initExistingCards to wire up handlers for existing DOM
+    function normalizeExistingEditButtons() {
+      document.querySelectorAll('[data-action="edit-card"]').forEach(btn=>{
+        if (!btn.querySelector('svg')) {
+          btn.setAttribute('aria-label','ویرایش');
+          btn.innerHTML = editIconHtml();
+        }
+      });
+    }
+
+    function initExistingCards() {
+      document.querySelectorAll('.link-card').forEach(card=>{
+        const editBtn = card.querySelector('[data-action="edit-card"]');
+        if (editBtn) {
+          if (!editBtn.querySelector('svg')) editBtn.innerHTML = editIconHtml();
+          // remove duplicate listeners by cloning
+          const newEdit = editBtn.cloneNode(true);
+          editBtn.parentNode.replaceChild(newEdit, editBtn);
+          newEdit.addEventListener('click', ()=> openAddLinkModalForEdit(card));
+        }
+
+        const heartBtn = card.querySelector('[data-action="toggle-fav"]');
+        if (heartBtn) {
+          // replace to avoid duplicate listeners
+          const newHeart = heartBtn.cloneNode(true);
+          heartBtn.parentNode.replaceChild(newHeart, heartBtn);
+          newHeart.addEventListener('click', ()=>{
+            const id = card.getAttribute('data-id');
+            const isFav = newHeart.getAttribute('aria-pressed') === 'true';
+            if (isFav) {
+              newHeart.setAttribute('aria-pressed','false');
+              newHeart.classList.remove('favored');
+              card.removeAttribute('data-fav');
+              removeFavoriteById(id);
+            } else {
+              newHeart.setAttribute('aria-pressed','true');
+              newHeart.classList.add('favored');
+              card.setAttribute('data-fav','true');
+              addFavoriteFromOriginal(card);
+            }
+          });
+        }
+      });
+
+      // ensure positions exist for existing cards per group
+      document.querySelectorAll('.links').forEach(linksEl => {
+        const children = Array.from(linksEl.children);
+        children.forEach((c, i) => {
+          if (!c.hasAttribute('data-position')) {
+            const pos = i + 1;
+            c.setAttribute('data-position', String(pos));
+            c.dataset.position = String(pos);
+          }
+        });
+        // sort by position to normalize initial order
+        sortLinksByPosition(linksEl);
+      });
+    }
+
+
+    // Sync original cards with any favorite clones that exist on load
+function syncFavoritesFromClones() {
+  if (!document.getElementById('links-favorites')) return;
+  const clones = Array.from(document.querySelectorAll('#links-favorites .link-card[data-id]'));
+  clones.forEach(clone => {
+    const id = clone.getAttribute('data-id');
+    if (!id) return;
+    const origCard = document.querySelector('.link-card[data-id="'+id+'"]:not([data-fav-clone])');
+    if (origCard) {
+      // mark original as favored
+      origCard.setAttribute('data-fav', 'true');
+      const origHeart = origCard.querySelector('[data-action="toggle-fav"]');
+      if (origHeart) {
+        origHeart.setAttribute('aria-pressed', 'true');
+        origHeart.classList.add('favored');
+      }
+    }
+  });
+}
+
+    // initialize UI
+    normalizeExistingEditButtons();
+    initExistingCards();
+
+    // ensure idCounter starts above any existing card ids
+    idCounter = getMaxExistingIdNumber();
+    // sync favorites from any persisted clones so original hearts reflect state
+    syncFavoritesFromClones();
+
+    populateGroupSelect();
+    updateCounts();
+    updateFavoritesVisibility();
+    // ensure all groups sorted by position on load
+    sortAllGroupsByPosition();
+
+
+    // -------------------------------------------------------------------------CUSTOM sync fav.title--------
+(function(){
+  // helper: wrap text into lines ~50 chars trying to break at spaces
+  function wrap50(s) {
+    if (!s) return '';
+    const parts = [];
+    let i = 0;
+    while (i < s.length) {
+      let chunk = s.slice(i, i + 50);
+      if (chunk.length < 50) {
+        parts.push(chunk);
+        break;
+      }
+      // try to break at last space inside chunk
+      const lastSpace = chunk.lastIndexOf(' ');
+      if (lastSpace > 10) { // prefer breaking at a space, but avoid extremely short lines
+        parts.push(chunk.slice(0, lastSpace));
+        i += lastSpace + 1;
+      } else {
+        parts.push(chunk);
+        i += chunk.length;
+      }
+    }
+    return parts.join('\n');
+  }
+
+  // sync function: store description on fav.dataset (do NOT set title attributes)
+  function syncFavTitleForCard(card){
+    try {
+      if (!card || !(card instanceof HTMLElement)) return;
+      const descText = (card.querySelector('.desc')?.textContent || card.getAttribute('data-desc') || '').trim();
+      const fav = card.querySelector('.fav');
+      if (!fav) return;
+      // store description on data attribute for custom tooltip (no native title)
+      fav.dataset.desc = descText;
+      // ensure native title attributes are removed so browser tooltip won't appear
+      fav.removeAttribute && fav.removeAttribute('title');
+      const img = fav.querySelector('img');
+      if (img) img.removeAttribute && img.removeAttribute('title');
+      const svg = fav.querySelector('svg');
+      if (svg) svg.removeAttribute && svg.removeAttribute('title');
+    } catch (e) {
+      console.error('syncFavTitleForCard error', e);
+    }
+  }
+
+  // initial sync on load
+  document.querySelectorAll('.link-card').forEach(syncFavTitleForCard);
+
+  // live update while editing in modal
+  if (typeof addDesc !== 'undefined' && addDesc) {
+    addDesc.addEventListener('input', () => {
+      try {
+        if (!editingCard) return;
+        const descEl = editingCard.querySelector('.desc');
+        if (descEl) descEl.textContent = addDesc.value;
+        syncFavTitleForCard(editingCard);
+      } catch (e) { console.error(e); }
+    });
+  }
+
+  // after confirm (covers both create and edit) ensure dataset.desc are synced
+  if (typeof confirmAddLink !== 'undefined' && confirmAddLink) {
+    confirmAddLink.addEventListener('click', () => {
+      try {
+        document.querySelectorAll('.link-card').forEach(syncFavTitleForCard);
+      } catch (e) { console.error(e); }
+    });
+  }
+
+  // --- custom tooltip element (bigger + wrap after ~50 chars) ---
+  const tt = document.createElement('div');
+  Object.assign(tt.style, {
+    position: 'fixed',
+    zIndex: 99999,
+    pointerEvents: 'none',
+    background: 'rgba(0,0,0,0.99)',
+    color: '#fff',
+    padding: '10px 10px',
+    borderRadius: '25px',
+    whiteSpace: 'pre-wrap',
+    display: 'none',
+    lineHeight: '1.7',
+    boxShadow: '0 8px 90px rgba(0,0,0,0.5)',
+    maxWidth: '420px',
+    transform: 'translate(-100px, -25px)'
+  });
+  document.body.appendChild(tt);
+
+  tt.style.fontSize = '14px';
+  let activeFav = null;
+
+  // Get description directly from the card (prefer .desc element, fallback to data-desc)
+  function getDescForFav(fav) {
+    if (!fav) return '';
+    const card = fav.closest && fav.closest('.link-card');
+    if (!card) return fav.dataset?.desc || '';
+    const descEl = card.querySelector('.desc');
+    const fromDesc = descEl ? descEl.textContent.trim() : '';
+    if (fromDesc) return fromDesc;
+    // fallback to attribute or stored dataset
+    return card.getAttribute('data-desc') || fav.dataset?.desc || '';
+  }
+
+  function showTooltipForFav(fav, clientX, clientY) {
+    const text = getDescForFav(fav) || '';
+    if (!text) return;
+    tt.textContent = wrap50(text);
+    tt.style.display = 'block';
+    positionTooltip(clientX, clientY);
+    activeFav = fav;
+  }
+
+  function hideTooltip() {
+    tt.style.display = 'none';
+    activeFav = null;
+  }
+
+  function positionTooltip(clientX, clientY) {
+    if (!tt || tt.style.display === 'none') return;
+    const pad = 12;
+    const w = tt.offsetWidth;
+    const h = tt.offsetHeight;
+    let x = clientX + 14;
+    let y = clientY - h - 14;
+    if (y < 8) y = clientY + 14;
+    if (x + w + pad > window.innerWidth) x = window.innerWidth - w - pad;
+    if (x < pad) x = pad;
+    tt.style.left = x + 'px';
+    tt.style.top = y + 'px';
+  }
+
+  // --- hover-with-delay: show tooltip only after 1s of near-stationary pointer ---
+let hoverTimer = null;
+let lastPointerPos = { x: 0, y: 0 };
+const STAY_THRESHOLD_PX = 4;    // اگر موس کمتر از این مقدار جابجا شد، در نظر می‌گیریم "ایستاده"
+const HOVER_DELAY_MS = 500;    // 1 second
+
+function clearHoverTimer() {
+  if (hoverTimer) {
+    clearTimeout(hoverTimer);
+    hoverTimer = null;
+  }
+}
+
+document.addEventListener('pointerover', (e) => {
+  const fav = e.target.closest && e.target.closest('.fav');
+  if (!fav) return;
+  // ذخیرهٔ موقعیت اولیه موس
+  lastPointerPos.x = e.clientX;
+  lastPointerPos.y = e.clientY;
+
+  // اگر متن وجود دارد، شروع تایمر
+  const text = getDescForFav(fav);
+  if (!text || !text.trim()) return;
+
+  clearHoverTimer();
+  // شروع تایمر: اگر بعد از HOVER_DELAY_MS موس تقریباً ثابت بود، نمایش بده
+  hoverTimer = setTimeout(() => {
+    // قبل از نمایش دوباره بررسی کن که موس هنوز روی همان fav است
+    const elUnderPointer = document.elementFromPoint(lastPointerPos.x, lastPointerPos.y);
+    const stillOverFav = elUnderPointer && elUnderPointer.closest && elUnderPointer.closest('.fav') === fav;
+    if (stillOverFav) {
+      showTooltipForFav(fav, lastPointerPos.x, lastPointerPos.y);
+    } else {
+      // اگر دیگر روی fav نیست، مخفی کن (یا کاری نکن)
+      hideTooltip();
+    }
+    hoverTimer = null;
+  }, HOVER_DELAY_MS);
+});
+
+document.addEventListener('pointermove', (e) => {
+  // هر حرکت موس را ثبت کن
+  const favUnder = e.target.closest && e.target.closest('.fav');
+
+  // اگر تایمر فعال است و موس جابجا شده بیش از آستانه، تایمر را ریست کن و دوباره شروع کن
+  const dx = Math.abs(e.clientX - lastPointerPos.x);
+  const dy = Math.abs(e.clientY - lastPointerPos.y);
+  const moved = (dx > STAY_THRESHOLD_PX) || (dy > STAY_THRESHOLD_PX);
+
+  if (moved) {
+    // به‌روزرسانی موقعیت مرجع برای بررسی "ایستادن"
+    lastPointerPos.x = e.clientX;
+    lastPointerPos.y = e.clientY;
+    // اگر تایمر فعال است، ریستش کن و شروع مجدد بزن (تا 1s جدید)
+    if (hoverTimer) {
+      clearHoverTimer();
+      hoverTimer = setTimeout(() => {
+        const elUnderPointer = document.elementFromPoint(lastPointerPos.x, lastPointerPos.y);
+        const favNow = elUnderPointer && elUnderPointer.closest && elUnderPointer.closest('.fav');
+        if (favNow) showTooltipForFav(favNow, lastPointerPos.x, lastPointerPos.y);
+        hoverTimer = null;
+      }, HOVER_DELAY_MS);
+    }
+  }
+
+  // اگر تولتیپ فعال است و موس هنوز روی همان fav است، موقعیت را به‌روزرسانی کن
+  if (activeFav) {
+    const overFav = e.target.closest && e.target.closest('.fav');
+    if (overFav && overFav === activeFav) {
+      positionTooltip(e.clientX, e.clientY);
+    } else {
+      // اگر موس از fav خارج شد، پنهان کن
+      hideTooltip();
+      clearHoverTimer();
+    }
+  }
+});
+
+document.addEventListener('pointerout', (e) => {
+  const fromFav = e.target.closest && e.target.closest('.fav');
+  const toFav = e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest('.fav');
+  // اگر از fav خارج شدیم و به fav دیگری نرفتیم، پاک کن و مخفی کن
+  if (fromFav && (!toFav || toFav !== fromFav)) {
+    clearHoverTimer();
+    hideTooltip();
+  }
+});
+
+  // light-weight observer: when new .link-card elements are added, sync their fav dataset
+  const bodyObserver = new MutationObserver((mutations) => {
+    for (const m of mutations) {
+      for (const node of m.addedNodes) {
+        if (!(node instanceof HTMLElement)) continue;
+        // if a new card was added, sync its fav
+        if (node.matches && node.matches('.link-card')) {
+          syncFavTitleForCard(node);
+        } else {
+          // if any nested link-card exists inside added node
+          const cards = node.querySelectorAll && node.querySelectorAll('.link-card');
+          cards && cards.forEach(syncFavTitleForCard);
+        }
+      }
+    }
+  });
+  bodyObserver.observe(document.body, { childList: true, subtree: true });
+
+})();
+// -------------------------------------------------------------------------END CUSTOM sync fav.title--------
+
+    // observe dynamic additions to wire up controls
+    const groupsContainer = document.getElementById('mainGroups') || document.body;
+    if (groupsContainer) {
+      const observer = new MutationObserver(() => {
+        // when groups change, refresh select and counts
+        populateGroupSelect();
+        updateCounts();
+      });
+      observer.observe(groupsContainer, { childList:true, subtree:true });
+    }
+
+    // observe body for new cards/groups to initialize them
+    const bodyObserver = new MutationObserver((mutations) => {
+      for (const m of mutations) {
+        for (const node of m.addedNodes) {
+          if (!(node instanceof HTMLElement)) continue;
+          if (node.matches && node.matches('.links')) {
+            // ensure any new links container has its children positions and sorted
+            const linksEl = node;
+            const children = Array.from(linksEl.children);
+            children.forEach((c, i) => {
+              if (!c.hasAttribute('data-position')) {
+                const pos = i + 1;
+                c.setAttribute('data-position', String(pos));
+                c.dataset.position = String(pos);
+              }
+            });
+            sortLinksByPosition(linksEl);
+          }
+          const newCards = node.querySelectorAll && node.querySelectorAll('.link-card');
+          newCards && newCards.forEach(card => {
+            // wire up edit and heart if present
+            const editBtn = card.querySelector('[data-action="edit-card"]');
+            if (editBtn) {
+              const newEdit = editBtn.cloneNode(true);
+              editBtn.parentNode.replaceChild(newEdit, editBtn);
+              newEdit.addEventListener('click', ()=> openAddLinkModalForEdit(card));
+            }
+            const heartBtn = card.querySelector('[data-action="toggle-fav"]');
+            if (heartBtn) {
+              const newHeart = heartBtn.cloneNode(true);
+              heartBtn.parentNode.replaceChild(newHeart, heartBtn);
+              newHeart.addEventListener('click', ()=>{
+                const id = card.getAttribute('data-id');
+                const isFav = newHeart.getAttribute('aria-pressed') === 'true';
+                if (isFav) {
+                  newHeart.setAttribute('aria-pressed','false');
+                  newHeart.classList.remove('favored');
+                  card.removeAttribute('data-fav');
+                  removeFavoriteById(id);
+                } else {
+                  newHeart.setAttribute('aria-pressed','true');
+                  newHeart.classList.add('favored');
+                  card.setAttribute('data-fav','true');
+                  addFavoriteFromOriginal(card);
+                }
+              });
+            }
+          });
+        }
+      }
+    });
+    bodyObserver.observe(document.body, { childList: true, subtree: true });
+  })();
+/* -------------------------------------------------------------------------HiddenShow-------- */
+    const toggleBtn = document.getElementById('toggleAll');
+    let hidden = false;
+    function applyToggle() {
+      const ids = ['addBtn', 'addGroupBtn', 'sortBtn'];
+      ids.forEach(id => {
+        const el = document.getElementById(id);
+       if (el) {
+          el.classList.toggle('hidden', hidden);
+       }
+      });
+      const classes = ['desc', 'meta'];
+      classes.forEach(cls => {
+        document.querySelectorAll('.' + cls).forEach(el => {
+          el.classList.toggle('hidden', hidden);
+        });
+      });
+    }
+    hidden = true;
+    applyToggle();
+    toggleBtn.addEventListener('click', () => {
+      hidden = !hidden;
+      applyToggle();
+    });
+/* -------------------------------------------------------------------------Ctrl+S-------- */
+document.addEventListener('keydown', (e) => {
+  const isSave = (e.ctrlKey || e.metaKey) &&
+                 (e.code === 'KeyS' || e.key.toLowerCase() === 's' || e.key === 'س');
+  if (!isSave) return;
+  e.preventDefault();
+// create ephemeral message element
+  const m = document.createElement('div');
+  m.textContent = "   برای ذخیــره فایل ، از دکمه 💾 استفاده کنید    ";
+  Object.assign(m.style, {
+    position: 'fixed',
+    top: '30%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    background: '#d22',
+    color: 'black',
+    padding: '15px',
+    fontSize: '20px',
+    fontWeight: 'bold',
+    border: '5px solid #000',
+    borderRadius: '90px',
+    zIndex: 9999,
+    opacity: '0',
+    transition: 'opacity 160ms ease'
+  });
+
+  document.body.appendChild(m);
+  requestAnimationFrame(() => { m.style.opacity = '1'; });
+  setTimeout(() => {
+    m.style.opacity = '0';
+    setTimeout(() => m.remove(), 200);
+  }, 3000);
+});
+
+/* -------------------------------------------------------------------------Ctrl=ShowHide-------- */
+document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('keydown', e => {
+    // فقط وقتی کلید Ctrl به تنهایی زده بشه
+    if (e.key === 'Control' && !e.shiftKey && !e.altKey && !e.metaKey) {
+      e.preventDefault();
+      const btn = document.getElementById('toggleAll');
+      if (btn) btn.click();
+    }
+  });
+});
+
+desc.addEventListener('input', () => {
+  document.querySelectorAll('.card .icon').forEach(i => i.title = desc.value);
+});
+
+  </script>
+  </body></html>
