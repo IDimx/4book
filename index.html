@@ -111,11 +111,7 @@
   
 
 
-    /* .is-mobile .wrap{padding-right: 2vw; padding-bottom: 2vw; padding-left: 2vw; padding-top: 2vw;} */
-    /* .is-mobile .card {border-right-width: 5px; border-left-width: 5px; padding: 9px;border-radius: 30px;} */
-    /* فقط وقتی is-mobile وجود دارد اینها اعمال می‌شوند */
-    /* .is-mobile .links {gap: 8px;} */
-    /* کارت‌ها در موبایل بزرگ‌تر یا با padding متفاوت */
+
 
     .is-mobile .links{column-gap:6px;}
     .is-mobile .group {padding-left: 9px;padding-right: 9px;}
@@ -210,13 +206,13 @@
     #favoritesGroup .group-body {overflow: visible;}
 
 
-    .fav{cursor: pointer;width:clamp(31px, 2.49vw,47px);border-radius:10px;display:grid;
-      place-items:center;background:#ff000000;flex:0 0 clamp(31px, 2.49vw,47px);overflow:hidden;user-select: none;}
+    .fav{cursor: pointer;width:clamp(31px, 2.49vw,47px);height:clamp(31px, 2.49vw,47px);border-radius:10px;display:grid;
+      place-items:center;background:#ff000000;overflow:hidden;user-select: none;}
 
-    .fav img{width:100%;height:100%;object-fit:cover;display:block;border-radius:10px}
-    .fav svg{width:34px;height:34px;fill:#ffffff}
+    .fav img{width:clamp(31px, 2.49vw,47px);height:clamp(31px, 2.49vw,47px);object-fit:contain;display:block;border-radius:10px}
+    .fav svg{width:clamp(31px, 2.49vw,47px);height:clamp(31px, 2.49vw,47px);fill:#ffffff}
 
-    .link-top{display:flex;gap:10px;align-items:center;border-radius:30px;background:rgba(0, 0, 0, 0.055)}
+    .link-top{cursor: pointer;display:flex;gap:10px;align-items:center;border-radius:30px;background:rgba(0, 0, 0, 0.055)}
     .link-card a{font-size:clamp(13px, 1.025vw, 15px);font-weight:450;color:var(--text);display:inline-block;max-width:calc(100% - 30px);word-break:break-word}
     .link-card a small{display:block;font-weight:600;color:var(--accent);font-size:11px;margin-top:3px}
 
@@ -269,8 +265,8 @@
     @media(max-width:1600px){#links-favorites.links{grid-template-columns:repeat(20,minmax(0,1fr))}}
     @media(max-width:1300px){#links-favorites.links{grid-template-columns:repeat(14,minmax(0,1fr))}}
     @media(max-width:1000px){#links-favorites.links{grid-template-columns:repeat(10,minmax(0,1fr))}}
-    @media(max-width:700px){#links-favorites.links{grid-template-columns:repeat(7,minmax(0,1fr))}}
-    @media(max-width:610px){#links-favorites.links{grid-template-columns:repeat(5,minmax(0,1fr))}}
+    @media(max-width:700px){#links-favorites.links{grid-template-columns:repeat(8,minmax(0,1fr))}}
+    @media(max-width:610px){#links-favorites.links{grid-template-columns:repeat(7,minmax(0,1fr))}}
 
     /* Favorites group specific: initially hidden */
     .favorites-group { display:none; margin-bottom:12px; }
@@ -339,7 +335,7 @@
     .ios-switch .track{display:block;width:100%;height:100%;border-radius:100px;background:#ffffff34;}
     .ios-switch .handle{
       position:absolute;left:1px;top:-2%;transform:translateY(-50%) translateX(16px);width:16px;height:16px;
-      border-radius:50%;background:linear-gradient(180deg,#00000000,#00000000);box-shadow:0 6px 14px #00000047;
+      border-radius:50%;background:linear-gradient(180deg,#00000000,#00000000);box-shadow:0 6px 14px #00000000;
       transition:transform 180ms cubic-bezier(.2,.8,.2,1),box-shadow 180ms;will-change:transform;}
     .ios-switch input:checked + .track{background:linear-gradient(90deg,#39b45a,#39b45a);box-shadow:0 8px 20px #30ac4f24}
     .ios-switch input:checked + .track .handle{transform:translateY(-50%) translateX(0px);box-shadow:0 10px 22px #28a04638}
@@ -391,9 +387,9 @@
           ctx.beginPath();
           ctx.arc(r.x,r.y,r.radius,0,2*Math.PI);
           ctx.strokeStyle="rgba(255,255,255,"+r.alpha+")";
-          ctx.lineWidth=0.5;
+          ctx.lineWidth=0.2;
           ctx.stroke();
-          r.radius+=1;
+          r.radius+=1.1;
           r.alpha-=0.014;
           if(r.alpha<=0){ripples.splice(i,1);i--;}
         }
@@ -557,12 +553,14 @@
 
           <div class="row"></div>
           <div class="row"></div>
-          <div style="display:flex;gap:8px;align-items:center">
-            <button id="addIconBtn" class="btn" type="button" style="font-size:14px; font-weight:500;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( آیـکـن )</button>
-            <div id="addIconPreview" class="fav" aria-hidden="true" style="background: #ffffff10;width:40px;height:34px;border-radius:10px;"></div>
-          </div>
+
 
           <div class="row">
+            <div    id="addIconBtn"    style="margin-left:auto;display:flex;align-items:center">
+            <button    class="btn" type="button" style="font-size:14px; font-weight:500;">آیـکـن</button>
+            <div id="addIconPreview" class="fav" aria-hidden="true" style="background: #ffffff10;border-radius:10px;"></div>
+          </div>
+          
             <button id="deleteCardBtn" class="btn" style="background-color: rgba(199, 0, 0, 0.43); border: 4px solid rgba(0, 0, 0, 0.686); display: none;">حـذف</button>
             <button id="cancelAddLink" class="btn" style="background-color:#c7a90062; border: 4px solid #000000af;">انصـراف</button>
             <button id="confirmAddLink" class="btn" style="background-color:#00c7116e; border: 4px solid #000000af;">تـأیـیـد</button>
@@ -660,7 +658,7 @@
 
 /* -------------------------------------------------------------------------------------------(Favorit Icon Click)--------------- */
 document.addEventListener('click', (e) => {
-  const icon = e.target.closest('.fav');
+  const icon = e.target.closest('.link-top');
   if (icon) {
     const card = icon.closest('.link-card');
     if (card) {
@@ -928,65 +926,161 @@ function generateUniqueCardId() {
       return card;
     }
 
-    /**
-     * resizeImageFile unchanged
-     */
-    function resizeImageFile(file, size = 64, baseQuality = 0.78) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onerror = () => { reader.abort(); reject(new Error('خطا در خواندن فایل')); };
-        reader.onload = () => {
-          const img = new Image();
-          img.onload = () => {
-            try {
-              const canvas = document.createElement('canvas');
-              canvas.width = size;
-              canvas.height = size;
-              const ctx = canvas.getContext('2d');
 
-              const iw = img.naturalWidth;
-              const ih = img.naturalHeight;
-              const srcRatio = iw / ih;
-              const dstRatio = 1;
+ 
 
-              let sx = 0, sy = 0, sw = iw, sh = ih;
-              if (srcRatio > dstRatio) {
-                sw = ih * dstRatio;
-                sx = (iw - sw) / 2;
-              } else if (srcRatio < dstRatio) {
-                sh = iw / dstRatio;
-                sy = (ih - sh) / 2;
-              }
 
-              ctx.clearRect(0,0,size,size);
-              ctx.imageSmoothingEnabled = true;
-              ctx.imageSmoothingQuality = 'high';
-              ctx.drawImage(img, sx, sy, sw, sh, 0, 0, size, size);
 
-              const quality = baseQuality;
 
-              let dataUrl;
-              try {
-                dataUrl = canvas.toDataURL('image/webp', quality);
-                if (!dataUrl.startsWith('data:image/webp')) {
-                  dataUrl = canvas.toDataURL('image/jpeg', quality);
-                }
-              } catch (e) {
-                dataUrl = canvas.toDataURL('image/jpeg', quality);
-              }
-              resolve(dataUrl);
-            } catch (err) {
-              reject(err);
+//━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━(👇Resize and Retouch Icon)━━━━━━━━━━━━━━━
+function resizeImageFile(file) {
+  const size = 96;
+  const baseQuality = 0.90;
+  return new Promise((resolve, reject) => {
+    const isSVG = file.type === 'image/svg+xml';
+    const reader = new FileReader();
+    reader.onerror = () => { reader.abort(); reject(new Error('خطا در خواندن فایل')); };
+    reader.onload = () => {
+      if (isSVG) {
+        const svgDataUrl = reader.result;
+        resolve(svgDataUrl);
+        return;
+      }
+      const img = new Image();
+      img.onload = () => {
+        try {
+          // مرحله 1: کشیدن تصویر روی کانواس موقت
+          const tempCanvas = document.createElement('canvas');
+          tempCanvas.width = img.naturalWidth;
+          tempCanvas.height = img.naturalHeight;
+          const tempCtx = tempCanvas.getContext('2d');
+          tempCtx.drawImage(img, 0, 0);
+
+          let imageData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
+          let data = imageData.data;
+          // مرحله 2: تنظیم کنتراست (بدون افزایش روشنایی)
+          for (let i = 0; i < data.length; i += 4) {
+            const avg = (data[i] + data[i+1] + data[i+2]) / 3;
+            data[i]   = avg + (data[i]   - avg) * 0.9; // Red
+            data[i+1] = avg + (data[i+1] - avg) * 0.9; // Green
+            data[i+2] = avg + (data[i+2] - avg) * 0.9; // Blue
+          }
+          // مرحله 3: Sharpen ملایم
+          const weights = [
+            0, -0.2, 0,
+            -0.2, 1.8, -0.2,
+            0, -0.2, 0
+          ];
+          applyConvolution(imageData, weights);
+          // مرحله 4: High-pass filter
+          const blurCanvas = document.createElement('canvas');
+          blurCanvas.width = tempCanvas.width;
+          blurCanvas.height = tempCanvas.height;
+          const blurCtx = blurCanvas.getContext('2d');
+          blurCtx.filter = 'blur(2px)';
+          blurCtx.drawImage(tempCanvas, 0, 0);
+          const blurData = blurCtx.getImageData(0, 0, blurCanvas.width, blurCanvas.height).data;
+          for (let i = 0; i < data.length; i += 4) {
+            data[i]   = Math.min(255, Math.max(0, data[i]   + (data[i]   - blurData[i])));
+            data[i+1] = Math.min(255, Math.max(0, data[i+1] + (data[i+1] - blurData[i+1])));
+            data[i+2] = Math.min(255, Math.max(0, data[i+2] + (data[i+2] - blurData[i+2])));
+          }
+          // مرحله 5: Saturation boost (تقویت رنگ‌ها 20٪)
+          for (let i = 0; i < data.length; i += 4) {
+            const r = data[i], g = data[i+1], b = data[i+2];
+            const avg = (r + g + b) / 3;
+            data[i]   = Math.min(255, avg + (r - avg) * 1.4);
+            data[i+1] = Math.min(255, avg + (g - avg) * 1.4);
+            data[i+2] = Math.min(255, avg + (b - avg) * 1.4);
+          }
+          // مرحله 6: Gamma correction (برای جلوگیری از روشن شدن بیش از حد)
+          const gamma = 1.0;
+          const invGamma = 1 / gamma;
+          for (let i = 0; i < data.length; i += 4) {
+            data[i]   = Math.pow(data[i]   / 255, invGamma) * 255;
+            data[i+1] = Math.pow(data[i+1] / 255, invGamma) * 255;
+            data[i+2] = Math.pow(data[i+2] / 255, invGamma) * 255;
+          }
+          tempCtx.putImageData(imageData, 0, 0);
+          // مرحله 7: Resize نهایی
+          const canvas = document.createElement('canvas');
+          canvas.width = size;
+          canvas.height = size;
+          const ctx = canvas.getContext('2d');
+
+          ctx.clearRect(0, 0, size, size);
+          ctx.imageSmoothingEnabled = true;
+          ctx.imageSmoothingQuality = 'high';
+          ctx.drawImage(tempCanvas, 0, 0, size, size);
+          // خروجی
+          let dataUrl;
+          try {
+            dataUrl = canvas.toDataURL('image/webp', baseQuality);
+            if (!dataUrl.startsWith('data:image/webp')) {
+              dataUrl = canvas.toDataURL('image/jpeg', baseQuality);
             }
-          };
-          img.onerror = () => reject(new Error('خطا در بارگذاری تصویر'));
-          img.src = reader.result;
-        };
-        reader.readAsDataURL(file);
-      });
-    }
+          } catch (e) {
+            dataUrl = canvas.toDataURL('image/jpeg', baseQuality);
+          }
+          resolve(dataUrl);
+        } catch (err) {
+          reject(err);
+        }
+      };
+      img.onerror = () => reject(new Error('خطا در بارگذاری تصویر'));
+      img.src = reader.result;
+    };
 
-    // iconPicker handler: supports modal icon selection (target 'modal-new-icon') and updating existing cards
+    reader.readAsDataURL(file);
+  });
+}
+// تابع کمکی برای کانولوشن
+function applyConvolution(imageData, weights) {
+  const side = Math.round(Math.sqrt(weights.length));
+  const halfSide = Math.floor(side / 2);
+  const src = imageData.data;
+  const sw = imageData.width;
+  const sh = imageData.height;
+  const output = new ImageData(sw, sh);
+  const dst = output.data;
+
+  for (let y = 0; y < sh; y++) {
+    for (let x = 0; x < sw; x++) {
+      let r = 0, g = 0, b = 0;
+      for (let cy = 0; cy < side; cy++) {
+        for (let cx = 0; cx < side; cx++) {
+          const scy = y + cy - halfSide;
+          const scx = x + cx - halfSide;
+          if (scy >= 0 && scy < sh && scx >= 0 && scx < sw) {
+            const srcOff = (scy * sw + scx) * 4;
+            const wt = weights[cy * side + cx];
+            r += src[srcOff] * wt;
+            g += src[srcOff + 1] * wt;
+            b += src[srcOff + 2] * wt;
+          }
+        }
+      }
+      const dstOff = (y * sw + x) * 4;
+      dst[dstOff] = r;
+      dst[dstOff + 1] = g;
+      dst[dstOff + 2] = b;
+      dst[dstOff + 3] = src[dstOff + 3];
+    }
+  }
+  for (let i = 0; i < dst.length; i++) src[i] = dst[i];
+}
+//━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━(☝️Resize and Retouch Icon)━━━━━━━━━━━━━━━
+
+
+
+
+
+
+
+
+
+
+// iconPicker handler: supports modal icon selection (target 'modal-new-icon') and updating existing cards
     if (iconPicker) {
       iconPicker.addEventListener('change', async (e)=>{
         const file = e.target.files && e.target.files[0];
